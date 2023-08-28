@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38bbbedb1b840e0428199c072db57725, type: 3}
+  m_Name: AudioClipsSO
+  m_EditorClassIdentifier: 
+  newGameStartAudioClip: {fileID: 8300000, guid: 8872765a638d541d0809860f32d95f84,
+    type: 3}
+  clickAudioCLip: {fileID: 8300000, guid: 83c9c0f1c0d884082b8499001f9681fb, type: 3}
+  confirmButtonAudioClip: {fileID: 8300000, guid: c4287067ae5764116aac6838c92e33dd,
+    type: 3}
+  newObstacleSpawnAudioClip: {fileID: 8300000, guid: 332c5d62659c841398cb28d3012618e2,
+    type: 3}
+  changeColourAudioClip: {fileID: 8300000, guid: 43eafb70b33fb45cca0ab68abab20cce,
+    type: 3}
+  colourMatchAudioClip: {fileID: 8300000, guid: 94741b1aaad5f46769445453b2810caf,
+    type: 3}
+  playerImpactAudioClip: {fileID: 8300000, guid: 083c4489a1c74d94196ec770ee04d43e,
+    type: 3}
