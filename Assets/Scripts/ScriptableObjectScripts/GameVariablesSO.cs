@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace ColourMatch
 {
-    [CreateAssetMenu(fileName = "GameVariables", menuName = "DodgyBoxes/GameVariables")]
+    [CreateAssetMenu(fileName = "GameVariables", menuName = "ColourMatch/GameVariables")]
     public class GameVariablesSO : ScriptableObject
     {
         [Header("Colours")]

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace ColourMatch
 {
-    [CreateAssetMenu(fileName = "ObstaclePrefabs", menuName = "DodgyBoxes/ObstaclePrefabs")]
+    [CreateAssetMenu(fileName = "ObstaclePrefabs", menuName = "ColourMatch/ObstaclePrefabs")]
     public class ObstaclePrefabsSO : ScriptableObject
     {
         public List<Obstacle> obstaclePrefabs;

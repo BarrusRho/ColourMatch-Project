@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace ColourMatch
 {
-    [CreateAssetMenu(fileName = "AudioClips", menuName = "DodgyBoxes/AudioClips")]
+    [CreateAssetMenu(fileName = "AudioClips", menuName = "ColourMatch/AudioClips")]
     public class AudioClipsSO : ScriptableObject
     {
         public AudioClip newGameStartAudioClip;
