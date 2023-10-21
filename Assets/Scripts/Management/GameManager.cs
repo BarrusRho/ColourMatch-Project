@@ -95,13 +95,13 @@ namespace ColourMatch
         {
             if (gameHUD.LeftButton.IsButtonClicked)
             {
-                audioManager.PlayChangeColourButtonAudio();
+                audioManager.PlayAudioClip(AudioTag.ChangeColour);
                 player.DecrementPlayerColour();
                 gameHUD.LeftButton.IsButtonClicked = false;
             }
             else if (gameHUD.RightButton.IsButtonClicked)
             {
-                audioManager.PlayChangeColourButtonAudio();
+                audioManager.PlayAudioClip(AudioTag.ChangeColour);
                 player.IncrementPlayerColour();
                 gameHUD.RightButton.IsButtonClicked = false;
             }
@@ -133,7 +133,7 @@ namespace ColourMatch
         /// </summary>
         private void SpawnObstacle()
         {
-            audioManager.PlayNewObstacleSpawnAudio();
+            audioManager.PlayAudioClip(AudioTag.NewObstacleSpawn);
             obstacle = poolManager.GetObstacleFromPool();
             obstacle.AssignObstacleRandomColour();
             obstacle.SetPosition(
@@ -171,7 +171,7 @@ namespace ColourMatch
         {
             player.CollisionOccurredOnPlayer -= OnEnemyHitPlayer;
             Instantiate(vfxPrefabsSO.playerImpactVFX, playerRigidbody.position, Quaternion.identity);
-            audioManager.PlayPlayerImpactAudio();
+            audioManager.PlayAudioClip(AudioTag.PlayerImpact);
             player.gameObject.SetActive(false);
         }
 

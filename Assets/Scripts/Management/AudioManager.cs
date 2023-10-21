@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 namespace ColourMatch
@@ -5,45 +6,30 @@ namespace ColourMatch
     public class AudioManager : MonoBehaviour
     {
         [SerializeField] private AudioClipsSO audioClipsSO;
+        [SerializeField] private AudioSource[] audioSources;
 
-        private void PlaySoundEffect(AudioClip audioClip, Vector2 position)
+        public void PlayAudioClip(string audioTag)
         {
-            AudioSource.PlayClipAtPoint(audioClip, position);
-        }
-
-        public void PlayNewGameStartAudio()
-        {
-            PlaySoundEffect(audioClipsSO.newGameStartAudioClip, Vector2.zero);
-        }
-        
-        public void PlayClickAudio()
-        {
-            PlaySoundEffect(audioClipsSO.clickAudioCLip, Vector2.zero);
-        }
-        
-        public void PlayConfirmButtonPressAudio()
-        {
-            PlaySoundEffect(audioClipsSO.confirmButtonAudioClip, Vector2.zero);
-        }
-        
-        public void PlayNewObstacleSpawnAudio()
-        {
-            PlaySoundEffect(audioClipsSO.newObstacleSpawnAudioClip, Vector2.zero);
-        }
-        
-        public void PlayChangeColourButtonAudio()
-        {
-            PlaySoundEffect(audioClipsSO.changeColourAudioClip, Vector2.zero);
+            if (!audioClipsSO.HasAudioClip(audioTag))
+            {
+                Debug.LogWarning($"{audioTag} does not exist");
+                return;
+            }
+            
+            var audioClip = audioClipsSO.GetAudioClip(audioTag);
+            var audioSource = audioSources.FirstOrDefault(x => !x.isPlaying);
+            if (audioSource == null)
+            {
+                Debug.LogWarning($"No free audio sources");
+                return;
+            }
+            
+            audioSource.PlayOneShot(audioClip);
         }
 
-        public void PlayColourMatchAudio()
+        public void PlayAudioClip(AudioTag audioTag)
         {
-            PlaySoundEffect(audioClipsSO.colourMatchAudioClip, Vector2.zero);
-        }
-
-        public void PlayPlayerImpactAudio()
-        {
-            PlaySoundEffect(audioClipsSO.playerImpactAudioClip, Vector2.zero);
+            PlayAudioClip(audioTag.ToString());
         }
     }
 }

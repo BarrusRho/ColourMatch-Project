@@ -89,7 +89,7 @@ namespace ColourMatch
             {
                 if (obstacle.CurrentObstacleColour == currentPlayerColour)
                 {
-                    audioManager.PlayColourMatchAudio();
+                    audioManager.PlayAudioClip(AudioTag.ColourMatch);
                 }
                 else
                 {

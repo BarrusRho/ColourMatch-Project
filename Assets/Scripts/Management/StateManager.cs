@@ -79,7 +79,7 @@ namespace ColourMatch
         private void Start()
         {
             State = GameStates.MainMenu;
-            audioManager.PlayNewGameStartAudio();
+            audioManager.PlayAudioClip(AudioTag.NewGameStart);
         }
 
         /// <summary>
@@ -133,8 +133,9 @@ namespace ColourMatch
         private void OnStartGame()
         {
             State = GameStates.DifficultyMenu;
-            audioManager.PlayConfirmButtonPressAudio();
-            audioManager.PlayClickAudio();
+            audioManager.PlayAudioClip(AudioTag.Click);
+            AudioPlayer.Confirm();
+            //audioManager.PlayAudioClip(AudioTag.Confirm);
         }
 
         /// <summary>
@@ -146,8 +147,9 @@ namespace ColourMatch
             gameManager.SetStateManager(this);
             State = GameStates.Game;
             gameManager.InitialiseGame();
-            audioManager.PlayConfirmButtonPressAudio();
-            audioManager.PlayClickAudio();
+            audioManager.PlayAudioClip(AudioTag.Click);
+            AudioPlayer.Confirm();
+            //audioManager.PlayAudioClip(AudioTag.Confirm);
         }
 
         /// <summary>
@@ -156,7 +158,7 @@ namespace ColourMatch
         private void OnGameComplete()
         {
             State = GameStates.MainMenu;
-            audioManager.PlayNewGameStartAudio();
+            audioManager.PlayAudioClip(AudioTag.NewGameStart);
         }
     }
 }
