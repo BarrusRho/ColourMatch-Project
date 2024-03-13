@@ -6,19 +6,21 @@ namespace ColourMatch
     public class Player : MonoBehaviour
     {
         [SerializeField] private GameVariablesSO gameVariablesSO;
-        
+
         [SerializeField] private AudioManager audioManager;
-        
+
         [SerializeField] private SpriteRenderer playerSpriteRenderer;
 
+        [SerializeField] private GameObject playerEmojiFrame;
+
         private string currentPlayerColour;
-        
+
         private string previousPlayerColour;
-        
+
         private int currentColourIndex = 0;
 
         public Action<Player> CollisionOccurredOnPlayer = delegate { };
-        
+
         public void AssignPlayerRandomColour()
         {
             while (true)
@@ -49,22 +51,26 @@ namespace ColourMatch
             {
                 case 0:
                     currentPlayerColour = StringConstants.Magenta;
-                    playerSpriteRenderer.color = gameVariablesSO.magentaColour;
+                    //playerSpriteRenderer.color = gameVariablesSO.magentaColour;
+                    playerSpriteRenderer.sprite = gameVariablesSO.heartEmoji;
                     break;
 
                 case 1:
                     currentPlayerColour = StringConstants.Blue;
-                    playerSpriteRenderer.color = gameVariablesSO.blueColour;
+                    //playerSpriteRenderer.color = gameVariablesSO.blueColour;
+                    playerSpriteRenderer.sprite = gameVariablesSO.unicornEmoji;
                     break;
 
                 case 2:
                     currentPlayerColour = StringConstants.Green;
-                    playerSpriteRenderer.color = gameVariablesSO.greenColour;
+                    //playerSpriteRenderer.color = gameVariablesSO.greenColour;
+                    playerSpriteRenderer.sprite = gameVariablesSO.skullEmoji;
                     break;
 
                 case 3:
                     currentPlayerColour = StringConstants.Red;
-                    playerSpriteRenderer.color = gameVariablesSO.redColour;
+                    //playerSpriteRenderer.color = gameVariablesSO.redColour;
+                    playerSpriteRenderer.sprite = gameVariablesSO.cashEmoji;
                     break;
             }
         }
@@ -78,7 +84,7 @@ namespace ColourMatch
         {
             ChangePlayerColour(-1);
         }
-        
+
         /// <summary>
         /// Triggered when the player collides with another object.
         /// </summary>

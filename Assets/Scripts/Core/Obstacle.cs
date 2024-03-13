@@ -44,22 +44,26 @@ namespace ColourMatch
             {
                 case 0:
                     currentObstacleColour = StringConstants.Magenta;
-                    obstacleSpriteRenderer.color = gameVariablesSO.magentaColour;
+                    //obstacleSpriteRenderer.color = gameVariablesSO.magentaColour;
+                    obstacleSpriteRenderer.sprite = gameVariablesSO.heartEmoji;
                     break;
 
                 case 1:
                     currentObstacleColour = StringConstants.Blue;
-                    obstacleSpriteRenderer.color = gameVariablesSO.blueColour;
+                    //obstacleSpriteRenderer.color = gameVariablesSO.blueColour;
+                    obstacleSpriteRenderer.sprite = gameVariablesSO.unicornEmoji;
                     break;
 
                 case 2:
                     currentObstacleColour = StringConstants.Green;
-                    obstacleSpriteRenderer.color = gameVariablesSO.greenColour;
+                    //obstacleSpriteRenderer.color = gameVariablesSO.greenColour;
+                    obstacleSpriteRenderer.sprite = gameVariablesSO.skullEmoji;
                     break;
 
                 case 3:
                     currentObstacleColour = StringConstants.Red;
-                    obstacleSpriteRenderer.color = gameVariablesSO.redColour;
+                    //obstacleSpriteRenderer.color = gameVariablesSO.redColour;
+                    obstacleSpriteRenderer.sprite = gameVariablesSO.cashEmoji;
                     break;
             }
         }

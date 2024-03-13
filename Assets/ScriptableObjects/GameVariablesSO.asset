@@ -16,6 +16,11 @@ MonoBehaviour:
   blueColour: {r: 0, g: 0.39607847, b: 1, a: 1}
   greenColour: {r: 0.15686275, g: 0.86666673, b: 0, a: 1}
   redColour: {r: 1, g: 0.24313727, b: 0.22352943, a: 1}
-  easyDifficultySpeed: 4
-  mediumDifficultySpeed: 5
+  heartEmoji: {fileID: 21300000, guid: 6ca3d7f3cda315b4784cbd871438f429, type: 3}
+  unicornEmoji: {fileID: 21300000, guid: 4d071ed886a84c8459c31497204965e8, type: 3}
+  skullEmoji: {fileID: 21300000, guid: 733f8d6e9ed73824b91aebc99b6a2fe1, type: 3}
+  cashEmoji: {fileID: 21300000, guid: 3f2c2b13514c18e4e9ca13951b3a173f, type: 3}
+  easyDifficultySpeed: 2
+  mediumDifficultySpeed: 4
   hardDifficultySpeed: 6
+  gameOverDelay: 1.5

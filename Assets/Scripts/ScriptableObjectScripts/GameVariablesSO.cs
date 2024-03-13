@@ -10,6 +10,12 @@ namespace ColourMatch
         public Color blueColour;
         public Color greenColour;
         public Color redColour;
+
+        [Header("Emojis")]
+        public Sprite heartEmoji;
+        public Sprite unicornEmoji;
+        public Sprite skullEmoji;
+        public Sprite cashEmoji;
         
         [Header("Obstacle Speed")]
         public float easyDifficultySpeed = 3.0f;
