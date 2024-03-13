@@ -10,8 +10,11 @@ namespace ColourMatch
     public class GameManager : MonoBehaviour
     {
         private StateManager stateManager;
-        
-        [Header("Scriptable Objects")] [SerializeField]
+
+        private Vector2 latestSpawnPosition;
+
+        [Header("Scriptable Objects")]
+        [SerializeField]
         private GameVariablesSO gameVariablesSO;
 
         [SerializeField] private VFXPrefabsSO vfxPrefabsSO;
@@ -32,6 +35,7 @@ namespace ColourMatch
         [SerializeField] private GameHUD gameHUD;
 
         [SerializeField] private Player player;
+        [SerializeField] private GameObject emojiEater;
 
         /// <summary>
         /// Rigidbody2D component of the player.
@@ -51,6 +55,7 @@ namespace ColourMatch
         private void Update()
         {
             UpdatePlayerColour();
+            MoveEaterTowardsEmoji();
         }
 
         /// <summary>
@@ -67,6 +72,7 @@ namespace ColourMatch
         public void InitialiseGame()
         {
             playerRigidbody.gameObject.SetActive(true);
+            emojiEater.SetActive(true);
             player.AssignPlayerRandomColour();
             SetPlayerPosition();
             SpawnObstacle();
@@ -136,9 +142,14 @@ namespace ColourMatch
             audioManager.PlayAudioClip(AudioTag.NewObstacleSpawn);
             obstacle = poolManager.GetObstacleFromPool();
             obstacle.AssignObstacleRandomColour();
-            obstacle.SetPosition(
-                gameCamera.ScreenPositionToWorldPosition(new Vector2(Screen.width * 0.5f, Screen.height))
-            );
+
+            var spawnPosition = GetRandomSpawnPoint();
+
+            obstacle.SetPosition(spawnPosition);
+            latestSpawnPosition = spawnPosition;
+
+            //obstacle.SetPosition(gameCamera.ScreenPositionToWorldPosition(new Vector2(Screen.width * 0.5f, Screen.height)));
+
             player.CollisionOccurredOnPlayer += OnEnemyHitPlayer;
 
             if (stateManager == null) return;
@@ -147,14 +158,65 @@ namespace ColourMatch
                 case StateManager.DifficultyLevels.Easy:
                     obstacle.ObstacleSpeed = gameVariablesSO.easyDifficultySpeed;
                     break;
-                
+
                 case StateManager.DifficultyLevels.Medium:
                     obstacle.ObstacleSpeed = gameVariablesSO.mediumDifficultySpeed;
                     break;
-                
+
                 case StateManager.DifficultyLevels.Hard:
                     obstacle.ObstacleSpeed = gameVariablesSO.hardDifficultySpeed;
                     break;
+            }
+        }
+
+        private Vector2 GetRandomSpawnPoint()
+        {
+            Vector2 centerSpawnPoint = new Vector2(Screen.width * 0.5f, Screen.height);
+            Vector2 leftSpawnPoint = new Vector2(Screen.width * 0.25f, Screen.height);
+            Vector2 rightSpawnPoint = new Vector2(Screen.width * 0.75f, Screen.height);
+
+            int randomIndex = UnityEngine.Random.Range(0, 3);
+            Vector2 spawnPoint = centerSpawnPoint;
+
+            switch (randomIndex)
+            {
+                case 0:
+                    spawnPoint = centerSpawnPoint;
+                    break;
+                case 1:
+                    spawnPoint = leftSpawnPoint;
+                    break;
+                case 2:
+                    spawnPoint = rightSpawnPoint;
+                    break;
+            }
+
+            return gameCamera.ScreenPositionToWorldPosition(spawnPoint);
+        }
+
+        private void MoveEaterTowardsEmoji()
+        {
+            var eaterPosition = emojiEater.transform.position;
+            var targetPosition = new Vector2(latestSpawnPosition.x, eaterPosition.y);
+
+            var eaterSpeed = GetEaterSpeed(stateManager.selectedDifficulty);
+
+            emojiEater.transform.position = Vector2.MoveTowards(eaterPosition, targetPosition, eaterSpeed * Time.deltaTime);
+        }
+
+        private float GetEaterSpeed(StateManager.DifficultyLevels difficultyLevel)
+        {
+            switch (difficultyLevel)
+            {
+                case StateManager.DifficultyLevels.Easy:
+                    return gameVariablesSO.easyDifficultySpeed;
+                case StateManager.DifficultyLevels.Medium:
+                    return gameVariablesSO.mediumDifficultySpeed;
+                case StateManager.DifficultyLevels.Hard:
+                    return gameVariablesSO.hardDifficultySpeed;
+                default:
+                    Debug.LogError("Invalid difficulty level!");
+                    return 0f;
             }
         }
 
@@ -173,6 +235,7 @@ namespace ColourMatch
             Instantiate(vfxPrefabsSO.playerImpactVFX, playerRigidbody.position, Quaternion.identity);
             audioManager.PlayAudioClip(AudioTag.PlayerImpact);
             player.gameObject.SetActive(false);
+            emojiEater.SetActive(false);
         }
 
         /// <summary>
