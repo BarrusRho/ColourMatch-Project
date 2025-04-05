@@ -26,7 +26,7 @@ namespace ColourMatch
             var audioSource = audioSources.FirstOrDefault(x => !x.isPlaying);
             if (audioSource == null)
             {
-                Debug.LogWarning($"No free audio sources");
+                Debug.LogWarning($"No free audio sources available");
                 return;
             }
             
