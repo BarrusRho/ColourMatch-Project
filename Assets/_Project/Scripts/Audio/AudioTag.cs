@@ -9,5 +9,6 @@ namespace ColourMatch
         ChangeColour,
         ColourMatch,
         PlayerImpact,
+        TestEnum
     }
 }
