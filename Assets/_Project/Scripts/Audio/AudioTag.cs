@@ -8,7 +8,6 @@ namespace ColourMatch
         NewObstacleSpawn,
         ChangeColour,
         ColourMatch,
-        PlayerImpact,
-        TestEnum
+        PlayerImpact
     }
 }
