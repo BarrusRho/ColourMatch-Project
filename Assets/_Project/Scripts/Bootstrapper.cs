@@ -1,12 +1,9 @@
-using System;
 using UnityEngine;
 
 namespace ColourMatch
 {
-    public class GameInitialiser : MonoBehaviour
+    public class Bootstrapper : MonoBehaviour
     {
-        [SerializeField] private AudioManager _audioManager;
-
         private void Awake()
         {
                 InitialiseComponents();
@@ -14,7 +11,7 @@ namespace ColourMatch
 
         private void InitialiseComponents()
         {
-            AudioPlayer.SetAudioManager(_audioManager);
+            
         }
     }
 }

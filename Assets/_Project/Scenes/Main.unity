@@ -2545,7 +2545,7 @@ GameObject:
   - component: {fileID: 990653430}
   - component: {fileID: 990653429}
   m_Layer: 0
-  m_Name: GameInitialiser
+  m_Name: Bootstrapper
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2563,7 +2563,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e801b6928f6feb945b7d5663a758c579, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _audioManager: {fileID: 1694353914}
 --- !u!4 &990653430
 Transform:
   m_ObjectHideFlags: 0
