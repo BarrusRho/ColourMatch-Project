@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using UnityEngine;
 
@@ -8,11 +7,6 @@ namespace ColourMatch
     {
         [SerializeField] private AudioClipsSO audioClipsSO;
         [SerializeField] private AudioSource[] audioSources;
-
-        private void Awake()
-        {
-            AudioPlayer.SetAudioManager(this);
-        }
 
         public void PlayAudioClip(string audioTag)
         {

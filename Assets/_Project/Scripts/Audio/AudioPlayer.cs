@@ -1,22 +1,32 @@
+using UnityEngine;
+
 namespace ColourMatch
 {
     public static class AudioPlayer
     {
         private static AudioManager _audioManager;
 
-        public static void SetAudioManager(AudioManager audioManager)
+        private static AudioManager AudioManager
         {
-            _audioManager = audioManager;
+            get
+            {
+                if (!_audioManager)
+                {
+                    _audioManager = Object.FindObjectOfType<AudioManager>();
+                }
+
+                return _audioManager;
+            }
         }
 
         public static void Click()
         {
-            _audioManager.PlayAudioClip(AudioTag.Click);
+            AudioManager.PlayAudioClip(AudioTag.Click);
         }
 
         public static void Confirm()
         {
-            _audioManager.PlayAudioClip(AudioTag.Confirm);
+            AudioManager.PlayAudioClip(AudioTag.Confirm);
         }
     }
 }
