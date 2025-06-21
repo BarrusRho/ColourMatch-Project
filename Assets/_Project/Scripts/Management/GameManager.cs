@@ -17,10 +17,8 @@ namespace ColourMatch
         [SerializeField] private VFXPrefabsSO vfxPrefabsSO;
 
         [Header("References")]
-        [SerializeField] private AudioManager audioManager;
-
         [SerializeField] private PoolManager poolManager;
-
+        
         /// <summary>
         /// GameCamera component used for converting between screen and world coordinates.
         /// </summary>
@@ -95,13 +93,13 @@ namespace ColourMatch
         {
             if (gameHUD.LeftButton.IsButtonClicked)
             {
-                audioManager.PlayAudioClip(AudioTag.ChangeColour);
+                AudioPlayer.ChangeColour();
                 player.DecrementPlayerColour();
                 gameHUD.LeftButton.IsButtonClicked = false;
             }
             else if (gameHUD.RightButton.IsButtonClicked)
             {
-                audioManager.PlayAudioClip(AudioTag.ChangeColour);
+                AudioPlayer.ChangeColour();
                 player.IncrementPlayerColour();
                 gameHUD.RightButton.IsButtonClicked = false;
             }
@@ -133,7 +131,7 @@ namespace ColourMatch
         /// </summary>
         private void SpawnObstacle()
         {
-            audioManager.PlayAudioClip(AudioTag.NewObstacleSpawn);
+            AudioPlayer.ObstacleSpawn();
             obstacle = poolManager.GetObstacleFromPool();
             obstacle.AssignObstacleRandomColour();
             obstacle.SetPosition(
@@ -171,7 +169,7 @@ namespace ColourMatch
         {
             player.CollisionOccurredOnPlayer -= OnEnemyHitPlayer;
             Instantiate(vfxPrefabsSO.playerImpactVFX, playerRigidbody.position, Quaternion.identity);
-            audioManager.PlayAudioClip(AudioTag.PlayerImpact);
+            AudioPlayer.PlayerImpact();
             player.gameObject.SetActive(false);
         }
 

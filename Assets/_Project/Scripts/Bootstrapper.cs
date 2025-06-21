@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace ColourMatch
@@ -6,15 +7,22 @@ namespace ColourMatch
     {
         [SerializeField]
         private GameCamera gameCamera;
+
+        [SerializeField] private StateManager stateManager;
         
-        private void Awake()
-        {
-                InitialiseComponents();
+        [SerializeField] private AudioClipsSO audioClips;
+        [SerializeField] private AudioSource[] audioSources;
+        
+        private async void Awake()
+        { 
+            await InitialiseComponentsAsync();
         }
 
-        private void InitialiseComponents()
+        private async Task InitialiseComponentsAsync()
         {
-            gameCamera.Initialise();
+            await gameCamera.InitialiseAsync();
+            await AudioManager.Instance.InitialiseAsync(audioClips, audioSources);
+            await stateManager.InitialiseAsync();
         }
     }
 }

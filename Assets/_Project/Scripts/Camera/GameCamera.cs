@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Threading.Tasks;
+using UnityEngine;
 
 namespace ColourMatch
 {
@@ -33,7 +34,13 @@ namespace ColourMatch
 		/// </summary>
 		private float halfScreenHeight;
 
-		public void Initialise()
+		public Task InitialiseAsync()
+		{
+			Initialise();
+			return Task.CompletedTask;
+		}
+
+		private void Initialise()
 		{
 			// Calculate the cached values we'll need to convert between screen and world space.
 			theCamera = gameObject.GetComponent<Camera>();

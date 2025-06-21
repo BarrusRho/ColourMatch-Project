@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace ColourMatch
@@ -43,8 +44,6 @@ namespace ColourMatch
         /// </summary>
         [SerializeField] private GameManager gameManager = null;
 
-        [SerializeField] private AudioManager audioManager;
-
         /// <summary>
         /// MainMenu component on the main menu GameObject.
         /// </summary>
@@ -62,6 +61,18 @@ namespace ColourMatch
 
         public DifficultyLevels selectedDifficulty;
 
+        public Task InitialiseAsync()
+        {
+            Initialise();
+            return Task.CompletedTask;
+        }
+
+        private void Initialise()
+        {
+            State = GameStates.MainMenu;
+            AudioPlayer.NewGameStart();
+        }
+        
         private void OnEnable()
         {
             mainMenuUI.StartGame += OnStartGame;
@@ -74,12 +85,6 @@ namespace ColourMatch
             mainMenuUI.StartGame -= OnStartGame;
             difficultyMenuUI.DifficultySelected -= OnDifficultySelected;
             gameManager.GameComplete -= OnGameComplete;
-        }
-
-        private void Start()
-        {
-            State = GameStates.MainMenu;
-            audioManager.PlayAudioClip(AudioTag.NewGameStart);
         }
 
         /// <summary>
@@ -133,9 +138,8 @@ namespace ColourMatch
         private void OnStartGame()
         {
             State = GameStates.DifficultyMenu;
-            audioManager.PlayAudioClip(AudioTag.Click);
+            AudioPlayer.Click();
             AudioPlayer.Confirm();
-            //audioManager.PlayAudioClip(AudioTag.Confirm);
         }
 
         /// <summary>
@@ -147,9 +151,8 @@ namespace ColourMatch
             gameManager.SetStateManager(this);
             State = GameStates.Game;
             gameManager.InitialiseGame();
-            audioManager.PlayAudioClip(AudioTag.Click);
+            AudioPlayer.Click();
             AudioPlayer.Confirm();
-            //audioManager.PlayAudioClip(AudioTag.Confirm);
         }
 
         /// <summary>
@@ -158,7 +161,7 @@ namespace ColourMatch
         private void OnGameComplete()
         {
             State = GameStates.MainMenu;
-            audioManager.PlayAudioClip(AudioTag.NewGameStart);
+            AudioPlayer.NewGameStart();
         }
     }
 }
