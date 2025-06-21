@@ -7,8 +7,6 @@ namespace ColourMatch
     {
         [SerializeField] private GameVariablesSO gameVariablesSO;
         
-        [SerializeField] private AudioManager audioManager;
-        
         [SerializeField] private SpriteRenderer playerSpriteRenderer;
 
         private string currentPlayerColour;
@@ -89,7 +87,7 @@ namespace ColourMatch
             {
                 if (obstacle.CurrentObstacleColour == currentPlayerColour)
                 {
-                    audioManager.PlayAudioClip(AudioTag.ColourMatch);
+                    AudioPlayer.ColourMatch();
                 }
                 else
                 {
