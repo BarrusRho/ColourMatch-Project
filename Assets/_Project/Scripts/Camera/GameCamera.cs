@@ -33,7 +33,7 @@ namespace ColourMatch
 		/// </summary>
 		private float halfScreenHeight;
 
-		private void Awake()
+		public void Initialise()
 		{
 			// Calculate the cached values we'll need to convert between screen and world space.
 			theCamera = gameObject.GetComponent<Camera>();

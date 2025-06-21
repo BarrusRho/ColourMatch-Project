@@ -4,6 +4,9 @@ namespace ColourMatch
 {
     public class Bootstrapper : MonoBehaviour
     {
+        [SerializeField]
+        private GameCamera gameCamera;
+        
         private void Awake()
         {
                 InitialiseComponents();
@@ -11,7 +14,7 @@ namespace ColourMatch
 
         private void InitialiseComponents()
         {
-            
+            gameCamera.Initialise();
         }
     }
 }
