@@ -2563,6 +2563,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e801b6928f6feb945b7d5663a758c579, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameCamera: {fileID: 1679875372}
+  stateManager: {fileID: 1995779038}
+  audioClips: {fileID: 11400000, guid: 9cd9dc22f94be3a4f8d91c5fea7fdc44, type: 2}
+  audioSources:
+  - {fileID: 559939281}
+  - {fileID: 636438871}
+  - {fileID: 1506956683}
+  - {fileID: 1677055092}
+  - {fileID: 476855801}
+  - {fileID: 65568533}
+  - {fileID: 573223419}
+  - {fileID: 522150217}
+  - {fileID: 2027565892}
+  - {fileID: 2108397831}
 --- !u!4 &990653430
 Transform:
   m_ObjectHideFlags: 0
@@ -2836,7 +2850,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameVariablesSO: {fileID: 11400000, guid: 4629a793092cbda49b542ed6181d41ae, type: 2}
-  audioManager: {fileID: 1694353914}
   playerSpriteRenderer: {fileID: 1169916085}
 --- !u!58 &1140867574
 CircleCollider2D:
@@ -3513,7 +3526,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameVariablesSO: {fileID: 11400000, guid: 4629a793092cbda49b542ed6181d41ae, type: 2}
   vfxPrefabsSO: {fileID: 11400000, guid: 331c2089d01cd9247baec51dc218fb5f, type: 2}
-  audioManager: {fileID: 1694353914}
   poolManager: {fileID: 1148283532}
   gameCamera: {fileID: 1679875372}
   gameHUD: {fileID: 717676465}
@@ -4083,38 +4095,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1694353915}
-  - component: {fileID: 1694353914}
   m_Layer: 0
-  m_Name: AudioManager
+  m_Name: Audio
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1694353914
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1694353913}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d0ae73c1e26a394c8fc70bcd58e5e93, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audioClipsSO: {fileID: 11400000, guid: 9cd9dc22f94be3a4f8d91c5fea7fdc44, type: 2}
-  audioSources:
-  - {fileID: 559939281}
-  - {fileID: 636438871}
-  - {fileID: 1506956683}
-  - {fileID: 1677055092}
-  - {fileID: 476855801}
-  - {fileID: 65568533}
-  - {fileID: 573223419}
-  - {fileID: 522150217}
-  - {fileID: 2027565892}
-  - {fileID: 2108397831}
 --- !u!4 &1694353915
 Transform:
   m_ObjectHideFlags: 0
@@ -4429,7 +4416,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameManager: {fileID: 1387852824}
-  audioManager: {fileID: 1694353914}
   mainMenuUI: {fileID: 1198572394}
   difficultyMenuUI: {fileID: 191638274}
   selectedDifficulty: 0
