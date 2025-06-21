@@ -1,23 +1,38 @@
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace ColourMatch
 {
-    public class AudioManager : MonoBehaviour
+    public class AudioManager : ManagerBase<AudioManager>
     {
-        [SerializeField] private AudioClipsSO audioClipsSO;
-        [SerializeField] private AudioSource[] audioSources;
+        private AudioClipsSO _audioClipsSO;
+        private AudioSource[] _audioSources;
+        
+        public AudioManager() { }
 
-        public void PlayAudioClip(string audioTag)
+        public Task InitialiseAsync(AudioClipsSO audioClips, AudioSource[] audioSources)
         {
-            if (!audioClipsSO.HasAudioClip(audioTag))
+            Initialise(audioClips, audioSources);
+            return Task.CompletedTask;
+        }
+
+        private void Initialise(AudioClipsSO audioClips, AudioSource[] audioSources)
+        {
+            _audioClipsSO = audioClips;
+            _audioSources = audioSources;
+        }
+
+        public void PlayAudioClip(AudioTag audioTag)
+        {
+            if (!_audioClipsSO.HasAudioClip(audioTag))
             {
                 Debug.LogWarning($"{audioTag} does not exist");
                 return;
             }
             
-            var audioClip = audioClipsSO.GetAudioClip(audioTag);
-            var audioSource = audioSources.FirstOrDefault(x => !x.isPlaying);
+            var audioClip = _audioClipsSO.GetAudioClip(audioTag);
+            var audioSource = _audioSources.FirstOrDefault(x => !x.isPlaying);
             if (audioSource == null)
             {
                 Debug.LogWarning($"No free audio sources available");
@@ -25,11 +40,6 @@ namespace ColourMatch
             }
             
             audioSource.PlayOneShot(audioClip);
-        }
-
-        public void PlayAudioClip(AudioTag audioTag)
-        {
-            PlayAudioClip(audioTag.ToString());
         }
     }
 }
