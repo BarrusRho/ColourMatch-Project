@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -6,16 +7,29 @@ namespace ColourMatch
     [CreateAssetMenu(fileName = "AudioClips", menuName = "ColourMatch/AudioClips")]
     public class AudioClipsSO : ScriptableObject
     {
-        public SoundEffectClip[] audioClips;
+        [SerializeField]
+        private SoundEffectClip[] soundEffectClips;
+        
+        private Dictionary<AudioTag, AudioClip> audioClips;
 
-        public bool HasAudioClip(string audioTag)
+        private void OnEnable()
         {
-            return audioClips.Count(x => x.audioTag.Equals(audioTag)) != 0;
+            audioClips = soundEffectClips.ToDictionary(soundEffectClip => soundEffectClip.audioTag, soundEffectClip => soundEffectClip.audioClip);
         }
 
-        public AudioClip GetAudioClip(string audioTag)
+        public bool HasAudioClip(AudioTag audioTag)
         {
-            return audioClips.FirstOrDefault(x => x.audioTag.Equals(audioTag))?.audioClip;
+            return audioClips.ContainsKey(audioTag);
+        }
+
+        public AudioClip GetAudioClip(AudioTag audioTag)
+        {
+            if (!audioClips.TryGetValue(audioTag, out var audioClip))
+            {
+                Debug.LogWarning($"No SoundEffectClip found for AudioTag {audioTag}");
+            }
+
+            return audioClip;
         }
     }
 }
