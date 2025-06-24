@@ -7,8 +7,9 @@ namespace ColourMatch
     /// <summary>
     /// Game component responsible for the behaviour and logic of the game. 
     /// </summary>
-    public class GameManager : MonoBehaviour
+    public class GameManager : MonoBehaviourServiceUser
     {
+        private GameCamera gameCamera;
         private StateManager stateManager;
         
         [Header("Scriptable Objects")] [SerializeField]
@@ -18,11 +19,6 @@ namespace ColourMatch
 
         [Header("References")]
         [SerializeField] private PoolManager poolManager;
-        
-        /// <summary>
-        /// GameCamera component used for converting between screen and world coordinates.
-        /// </summary>
-        [SerializeField] private GameCamera gameCamera;
 
         /// <summary>
         /// GameHUD component used for providing game UI.
@@ -45,6 +41,12 @@ namespace ColourMatch
         /// Delegate triggered when the game is complete.
         /// </summary>
         public Action GameComplete = delegate { };
+        
+        public void Initialise()
+        {
+            gameCamera = ResolveServiceDependency<GameCamera>();
+            stateManager = ResolveServiceDependency<StateManager>();
+        }
 
         private void Update()
         {
@@ -68,11 +70,6 @@ namespace ColourMatch
             player.AssignPlayerRandomColour();
             SetPlayerPosition();
             SpawnObstacle();
-        }
-
-        public void SetStateManager(StateManager manager)
-        {
-            stateManager = manager;
         }
 
         /// <summary>

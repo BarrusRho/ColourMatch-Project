@@ -16,6 +16,6 @@ namespace ColourMatch
 
         public static T Instance => _instance ??= new T();
 
-        public virtual void Initialise() { }
+        public virtual void InitialiseManager() { }
     }
 }

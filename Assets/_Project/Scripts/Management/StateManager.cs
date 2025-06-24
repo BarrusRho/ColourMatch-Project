@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace ColourMatch
 {
-    public class StateManager : MonoBehaviour
+    public class StateManager : MonoBehaviourServiceUser
     {
         /// <summary>
         /// States of the game.
@@ -42,7 +41,7 @@ namespace ColourMatch
         /// <summary>
         /// Game component on the toys GameObject.
         /// </summary>
-        [SerializeField] private GameManager gameManager = null;
+        private GameManager gameManager;
 
         /// <summary>
         /// MainMenu component on the main menu GameObject.
@@ -61,20 +60,12 @@ namespace ColourMatch
 
         public DifficultyLevels selectedDifficulty;
 
-        public Task InitialiseAsync()
+        public void Initialise()
         {
-            Initialise();
-            return Task.CompletedTask;
-        }
-
-        private void Initialise()
-        {
+            gameManager = ResolveServiceDependency<GameManager>();
             State = GameStates.MainMenu;
             AudioPlayer.NewGameStart();
-        }
-        
-        private void OnEnable()
-        {
+            
             mainMenuUI.StartGame += OnStartGame;
             difficultyMenuUI.DifficultySelected += OnDifficultySelected;
             gameManager.GameComplete += OnGameComplete;
@@ -82,9 +73,14 @@ namespace ColourMatch
 
         private void OnDisable()
         {
-            mainMenuUI.StartGame -= OnStartGame;
-            difficultyMenuUI.DifficultySelected -= OnDifficultySelected;
-            gameManager.GameComplete -= OnGameComplete;
+            if (mainMenuUI != null)
+                mainMenuUI.StartGame -= OnStartGame;
+    
+            if (difficultyMenuUI != null)
+                difficultyMenuUI.DifficultySelected -= OnDifficultySelected;
+    
+            if (gameManager != null)
+                gameManager.GameComplete -= OnGameComplete;
         }
 
         /// <summary>
@@ -148,7 +144,6 @@ namespace ColourMatch
         private void OnDifficultySelected(DifficultyLevels difficulty)
         {
             selectedDifficulty = difficulty;
-            gameManager.SetStateManager(this);
             State = GameStates.Game;
             gameManager.InitialiseGame();
             AudioPlayer.Click();

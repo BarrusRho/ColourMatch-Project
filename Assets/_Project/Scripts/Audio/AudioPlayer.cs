@@ -2,7 +2,7 @@ namespace ColourMatch
 {
     public static class AudioPlayer
     {
-        private static AudioManager AudioManager => AudioManager.Instance;
+        private static AudioManager AudioManager => ServiceLocator.Get<AudioManager>();
 
         public static void Click() => AudioManager.PlayAudioClip(AudioTag.Click);
         public static void Confirm() => AudioManager.PlayAudioClip(AudioTag.Confirm);

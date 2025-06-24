@@ -3,15 +3,15 @@ using UnityEngine.Pool;
 
 namespace ColourMatch
 {
-    public class PoolManager : MonoBehaviour
+    public class PoolManager : MonoBehaviourServiceUser
     {
         [SerializeField] private Obstacle obstaclePrefab;
         [SerializeField] private int minPoolSize = 10;
         [SerializeField] private int maxPoolSize = 20;
 
         private ObjectPool<Obstacle> obstaclePool;
-
-        private void Start()
+        
+        public void Initialise()
         {
             CreateObstaclePool();
         }
@@ -36,5 +36,6 @@ namespace ColourMatch
         {
             obstaclePool.Release(obstacle);
         }
+
     }
 }

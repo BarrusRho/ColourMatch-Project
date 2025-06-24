@@ -4,20 +4,14 @@ using UnityEngine;
 
 namespace ColourMatch
 {
-    public class AudioManager : ManagerBase<AudioManager>
+    public class AudioManager
     {
         private AudioClipsSO _audioClipsSO;
         private AudioSource[] _audioSources;
         
         public AudioManager() { }
 
-        public Task InitialiseAsync(AudioClipsSO audioClips, AudioSource[] audioSources)
-        {
-            Initialise(audioClips, audioSources);
-            return Task.CompletedTask;
-        }
-
-        private void Initialise(AudioClipsSO audioClips, AudioSource[] audioSources)
+        public void Initialise(AudioClipsSO audioClips, AudioSource[] audioSources)
         {
             _audioClipsSO = audioClips;
             _audioSources = audioSources;
@@ -41,5 +35,6 @@ namespace ColourMatch
             
             audioSource.PlayOneShot(audioClip);
         }
+
     }
 }

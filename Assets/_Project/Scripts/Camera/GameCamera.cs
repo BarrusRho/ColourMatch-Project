@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace ColourMatch
 {
@@ -7,7 +6,7 @@ namespace ColourMatch
 	/// GameCamera which provides utility functions for converting between screen and world space. 
 	/// </summary>
 	[RequireComponent(typeof(Camera))]
-	public class GameCamera : MonoBehaviour
+	public class GameCamera : MonoBehaviourServiceUser
 	{
 		/// <summary>
 		/// The camera component being used in game.
@@ -34,13 +33,7 @@ namespace ColourMatch
 		/// </summary>
 		private float halfScreenHeight;
 
-		public Task InitialiseAsync()
-		{
-			Initialise();
-			return Task.CompletedTask;
-		}
-
-		private void Initialise()
+		public void Initialise()
 		{
 			// Calculate the cached values we'll need to convert between screen and world space.
 			theCamera = gameObject.GetComponent<Camera>();

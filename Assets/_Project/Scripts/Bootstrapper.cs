@@ -1,28 +1,49 @@
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace ColourMatch
 {
     public class Bootstrapper : MonoBehaviour
     {
-        [SerializeField]
-        private GameCamera gameCamera;
+        private AudioManager audioManager;
+        
+        [SerializeField] private GameCamera gameCamera;
 
         [SerializeField] private StateManager stateManager;
+        [SerializeField] private GameManager gameManager;
+        [SerializeField] private PoolManager poolManager;
         
         [SerializeField] private AudioClipsSO audioClips;
         [SerializeField] private AudioSource[] audioSources;
         
-        private async void Awake()
+        private void Awake()
         { 
-            await InitialiseComponentsAsync();
+            CreateServices();
+            RegisterServices();
+            InitialiseServices();
+            Debug.Log("Bootstrapper: All components initialized and registered.");
         }
 
-        private async Task InitialiseComponentsAsync()
+        private void CreateServices()
         {
-            await gameCamera.InitialiseAsync();
-            await AudioManager.Instance.InitialiseAsync(audioClips, audioSources);
-            await stateManager.InitialiseAsync();
+            audioManager = new AudioManager();
+        }
+
+        private void RegisterServices()
+        {
+            ServiceLocator.RegisterOnce(gameCamera);
+            ServiceLocator.RegisterOnce(audioManager);
+            ServiceLocator.RegisterOnce(poolManager);
+            ServiceLocator.RegisterOnce(gameManager);
+            ServiceLocator.RegisterOnce(stateManager);
+        }
+
+        private void InitialiseServices()
+        {
+            gameCamera.Initialise();
+            audioManager.Initialise(audioClips, audioSources);
+            poolManager.Initialise();
+            gameManager.Initialise();
+            stateManager.Initialise();
         }
     }
 }

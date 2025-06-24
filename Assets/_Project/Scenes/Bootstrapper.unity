@@ -2565,6 +2565,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameCamera: {fileID: 1679875372}
   stateManager: {fileID: 1995779038}
+  gameManager: {fileID: 1387852824}
+  poolManager: {fileID: 1148283532}
   audioClips: {fileID: 11400000, guid: 9cd9dc22f94be3a4f8d91c5fea7fdc44, type: 2}
   audioSources:
   - {fileID: 559939281}
@@ -3496,7 +3498,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1387852823
 Transform:
   m_ObjectHideFlags: 0
@@ -3527,7 +3529,6 @@ MonoBehaviour:
   gameVariablesSO: {fileID: 11400000, guid: 4629a793092cbda49b542ed6181d41ae, type: 2}
   vfxPrefabsSO: {fileID: 11400000, guid: 331c2089d01cd9247baec51dc218fb5f, type: 2}
   poolManager: {fileID: 1148283532}
-  gameCamera: {fileID: 1679875372}
   gameHUD: {fileID: 717676465}
   player: {fileID: 1140867573}
   playerRigidbody: {fileID: 1140867572}
@@ -4415,7 +4416,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2d4c90a0a5af4f92829d11fd3689c9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameManager: {fileID: 1387852824}
   mainMenuUI: {fileID: 1198572394}
   difficultyMenuUI: {fileID: 191638274}
   selectedDifficulty: 0
