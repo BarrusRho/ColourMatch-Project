@@ -10,16 +10,13 @@ namespace ColourMatch
     public class GameManager : MonoBehaviourServiceUser
     {
         private GameCamera gameCamera;
+        private PoolManager poolManager;
         private StateManager stateManager;
         
         [Header("Scriptable Objects")] [SerializeField]
         private GameVariablesSO gameVariablesSO;
 
-        [SerializeField] private VFXPrefabsSO vfxPrefabsSO;
-
         [Header("References")]
-        [SerializeField] private PoolManager poolManager;
-
         /// <summary>
         /// GameHUD component used for providing game UI.
         /// </summary>
@@ -45,6 +42,7 @@ namespace ColourMatch
         public void Initialise()
         {
             gameCamera = ResolveServiceDependency<GameCamera>();
+            poolManager = ResolveServiceDependency<PoolManager>();
             stateManager = ResolveServiceDependency<StateManager>();
         }
 
@@ -116,7 +114,7 @@ namespace ColourMatch
                 var enemyPositionOnScreen = gameCamera.WorldPositionToScreenPosition(obstacle.transform.position);
                 if (enemyPositionOnScreen.y < 0)
                 {
-                    obstacle.ReturnObstacleToPool(obstacle);
+                    poolManager.Return(PooledObject.Obstacle, obstacle.gameObject);
                     player.CollisionOccurredOnPlayer -= OnEnemyHitPlayer;
                     SpawnObstacle();
                 }
@@ -129,7 +127,8 @@ namespace ColourMatch
         private void SpawnObstacle()
         {
             AudioPlayer.ObstacleSpawn();
-            obstacle = poolManager.GetObstacleFromPool();
+            var pooledObject = poolManager.Get(PooledObject.Obstacle);
+            obstacle = pooledObject.GetComponent<Obstacle>();
             obstacle.AssignObstacleRandomColour();
             obstacle.SetPosition(
                 gameCamera.ScreenPositionToWorldPosition(new Vector2(Screen.width * 0.5f, Screen.height))
@@ -165,7 +164,11 @@ namespace ColourMatch
         private void DestroyPlayer()
         {
             player.CollisionOccurredOnPlayer -= OnEnemyHitPlayer;
-            Instantiate(vfxPrefabsSO.playerImpactVFX, playerRigidbody.position, Quaternion.identity);
+
+            var playerImpactVFX = poolManager.Get(PooledObject.PlayerImpactVFX);
+            playerImpactVFX.transform.position = playerRigidbody.position;
+            playerImpactVFX.transform.rotation = Quaternion.identity;
+            
             AudioPlayer.PlayerImpact();
             player.gameObject.SetActive(false);
         }

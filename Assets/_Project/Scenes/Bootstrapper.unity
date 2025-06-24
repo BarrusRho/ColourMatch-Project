@@ -2566,7 +2566,6 @@ MonoBehaviour:
   gameCamera: {fileID: 1679875372}
   stateManager: {fileID: 1995779038}
   gameManager: {fileID: 1387852824}
-  poolManager: {fileID: 1148283532}
   audioClips: {fileID: 11400000, guid: 9cd9dc22f94be3a4f8d91c5fea7fdc44, type: 2}
   audioSources:
   - {fileID: 559939281}
@@ -2579,6 +2578,9 @@ MonoBehaviour:
   - {fileID: 522150217}
   - {fileID: 2027565892}
   - {fileID: 2108397831}
+  objectPools:
+  - {fileID: 11400000, guid: 79fa053a4dd786f40b8313c9e50583a0, type: 2}
+  - {fileID: 11400000, guid: c7d2572323ba8314ca1248255fd81e96, type: 2}
 --- !u!4 &990653430
 Transform:
   m_ObjectHideFlags: 0
@@ -2897,7 +2899,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1148283533}
-  - component: {fileID: 1148283532}
   m_Layer: 0
   m_Name: PoolManager
   m_TagString: Untagged
@@ -2905,22 +2906,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1148283532
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1148283531}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe4e0eed74f5da945ae9fd87a9a838d1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  obstaclePrefab: {fileID: 114296328297082860, guid: deed629ef7f2c4f78a9eb1433ddfd58e,
-    type: 3}
-  minPoolSize: 4
-  maxPoolSize: 8
 --- !u!4 &1148283533
 Transform:
   m_ObjectHideFlags: 0
@@ -3528,7 +3513,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameVariablesSO: {fileID: 11400000, guid: 4629a793092cbda49b542ed6181d41ae, type: 2}
   vfxPrefabsSO: {fileID: 11400000, guid: 331c2089d01cd9247baec51dc218fb5f, type: 2}
-  poolManager: {fileID: 1148283532}
   gameHUD: {fileID: 717676465}
   player: {fileID: 1140867573}
   playerRigidbody: {fileID: 1140867572}

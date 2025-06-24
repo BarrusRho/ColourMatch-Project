@@ -14,9 +14,16 @@ namespace ColourMatch
         private string previousPlayerColour;
         
         private int currentColourIndex = 0;
+        
+        private PoolManager poolManager;
 
         public Action<Player> CollisionOccurredOnPlayer = delegate { };
-        
+
+        private void Start()
+        {
+            poolManager = ServiceLocator.Get<PoolManager>();
+        }
+
         public void AssignPlayerRandomColour()
         {
             while (true)
@@ -91,7 +98,7 @@ namespace ColourMatch
                 }
                 else
                 {
-                    obstacle.ReturnObstacleToPool(obstacle);
+                    poolManager.Return(PooledObject.Obstacle, obstacle.gameObject);
                     CollisionOccurredOnPlayer(this);
                 }
             }

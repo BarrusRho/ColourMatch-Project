@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace ColourMatch
@@ -5,15 +6,17 @@ namespace ColourMatch
     public class Bootstrapper : MonoBehaviour
     {
         private AudioManager audioManager;
+        private PoolManager poolManager;
         
         [SerializeField] private GameCamera gameCamera;
 
         [SerializeField] private StateManager stateManager;
         [SerializeField] private GameManager gameManager;
-        [SerializeField] private PoolManager poolManager;
         
         [SerializeField] private AudioClipsSO audioClips;
         [SerializeField] private AudioSource[] audioSources;
+        
+        [SerializeField] private List<ObjectPoolSO> objectPools;
         
         private void Awake()
         { 
@@ -26,6 +29,7 @@ namespace ColourMatch
         private void CreateServices()
         {
             audioManager = new AudioManager();
+            poolManager = new PoolManager(objectPools);
         }
 
         private void RegisterServices()

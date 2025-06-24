@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5690399139443810021}
   - component: {fileID: 8336020581324434292}
   - component: {fileID: 8798530398280571607}
-  - component: {fileID: 5900017262008743940}
+  - component: {fileID: 854830308235770316}
   m_Layer: 0
   m_Name: PlayerImpactVFX
   m_TagString: Untagged
@@ -44,7 +44,7 @@ ParticleSystem:
   serializedVersion: 8
   lengthInSec: 1.5
   simulationSpeed: 1
-  stopAction: 2
+  stopAction: 0
   cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
@@ -4871,13 +4871,15 @@ ParticleSystemRenderer:
   m_RenderAlignment: 0
   m_Pivot: {x: 0, y: 0, z: 0}
   m_Flip: {x: 0, y: 0, z: 0}
-  m_UseCustomVertexStreams: 0
   m_EnableGPUInstancing: 1
   m_ApplyActiveColorSpace: 1
   m_AllowRoll: 1
   m_FreeformStretching: 0
   m_RotateWithStretchDirection: 1
+  m_UseCustomVertexStreams: 0
   m_VertexStreams: 00010304
+  m_UseCustomTrailVertexStreams: 0
+  m_TrailVertexStreams: 00010304
   m_Mesh: {fileID: 0}
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
@@ -4887,15 +4889,16 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!114 &5900017262008743940
+--- !u!114 &854830308235770316
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1343534758114666829}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b77fe4e4495b324489bb9429aefe5528, type: 3}
+  m_Script: {fileID: 11500000, guid: 4aaa9abbe4189d94aa9a8cdb86e27fb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lifetime: 1.5

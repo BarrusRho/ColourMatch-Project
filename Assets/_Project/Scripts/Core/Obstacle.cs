@@ -3,35 +3,18 @@ using UnityEngine;
 
 namespace ColourMatch
 {
-    /// <summary>
-    /// Enemy component, responsible for providing the logic for the enemy.
-    /// </summary>
-    public class Obstacle : MonoBehaviour
+    public class Obstacle : MonoBehaviour, IPoolable
     {
         [SerializeField] private GameVariablesSO gameVariablesSO;
-        
         [SerializeField] private SpriteRenderer obstacleSpriteRenderer;
-
-        /// <summary>
-        /// Rigidbody2D component of the enemy.
-        /// </summary>
         [SerializeField] private Rigidbody2D obstacleRigidBody = null;
         
         private string currentObstacleColour;
-        
-        private string previousObstacleColour;
+        private string previousObstacleColour; 
         public string CurrentObstacleColour => currentObstacleColour;
         
         public float ObstacleSpeed = 1.0f;
-
-        /// <summary>
-        /// Delegate triggered when the obstacle collides with another object.
-        /// </summary>
-        public Action<Obstacle> ReturnObstacleToPool;
-
-        /// <summary>
-        /// Update the position of the enemy.
-        /// </summary>
+        
         private void FixedUpdate()
         {
             obstacleRigidBody.position += Vector2.down * (Time.fixedDeltaTime * ObstacleSpeed);
@@ -63,19 +46,20 @@ namespace ColourMatch
                     break;
             }
         }
-
-        /// <summary>
-        /// Set the position of the enemy.
-        /// </summary>
-        /// <param name="position">A position in world space.</param>
+        
         public void SetPosition(Vector3 position)
         {
             obstacleRigidBody.position = position;
         }
 
-        public void InitialiseObstacleForPool(Action<Obstacle> returnObstacleToPool)
+        public void OnSpawned()
         {
-            ReturnObstacleToPool = returnObstacleToPool;
+            Debug.Log($"Obstacle has spawned");
+        }
+
+        public void OnReturned()
+        {
+            Debug.Log($"Obstacle has been returned.");
         }
     }
 }
