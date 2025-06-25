@@ -15,13 +15,13 @@ namespace ColourMatch
         
         private int currentColourIndex = 0;
         
-        private PoolManager poolManager;
+        private PoolingService poolingService;
 
         public Action<Player> CollisionOccurredOnPlayer = delegate { };
 
         private void Start()
         {
-            poolManager = ServiceLocator.Get<PoolManager>();
+            poolingService = ServiceLocator.Get<PoolingService>();
         }
 
         public void AssignPlayerRandomColour()
@@ -98,7 +98,7 @@ namespace ColourMatch
                 }
                 else
                 {
-                    poolManager.Return(PooledObject.Obstacle, obstacle.gameObject);
+                    poolingService.Return(PooledObject.Obstacle, obstacle.gameObject);
                     CollisionOccurredOnPlayer(this);
                 }
             }

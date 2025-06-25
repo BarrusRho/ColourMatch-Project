@@ -4,12 +4,12 @@ using UnityEngine;
 
 namespace ColourMatch
 {
-    public class AudioManager
+    public class AudioService
     {
         private AudioClipsSO _audioClipsSO;
         private AudioSource[] _audioSources;
         
-        public AudioManager() { }
+        public AudioService() { }
 
         public void Initialise(AudioClipsSO audioClips, AudioSource[] audioSources)
         {

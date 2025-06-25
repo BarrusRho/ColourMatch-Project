@@ -6,7 +6,7 @@ namespace ColourMatch
     public class PoolableParticleVFX : MonoBehaviour, IPoolable
     {
         private ParticleSystem _particleSystem;
-        private PoolManager _poolManager;
+        private PoolingService poolingService;
         private PooledObject _pooledObject;
 
         private bool isConfigured;
@@ -20,9 +20,9 @@ namespace ColourMatch
             }
         }
 
-        public void Configure(PoolManager poolManager, PooledObject pooledObject)
+        public void Configure(PoolingService poolingService, PooledObject pooledObject)
         {
-            _poolManager = poolManager;
+            this.poolingService = poolingService;
             _pooledObject = pooledObject;
             isConfigured = true;
         }
@@ -53,9 +53,9 @@ namespace ColourMatch
             if (_particleSystem == null || _particleSystem.IsAlive()) return;
 
             CancelInvoke();
-            if (_poolManager != null)
+            if (poolingService != null)
             {
-                _poolManager.Return(_pooledObject, gameObject);
+                poolingService.Return(_pooledObject, gameObject);
             }
             else
             {

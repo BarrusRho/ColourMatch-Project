@@ -10,16 +10,13 @@ namespace ColourMatch
     public class GameManager : MonoBehaviourServiceUser
     {
         private GameCamera gameCamera;
-        private PoolManager poolManager;
+        private PoolingService poolingService;
         private StateManager stateManager;
         
         [Header("Scriptable Objects")] [SerializeField]
         private GameVariablesSO gameVariablesSO;
 
         [Header("References")]
-        /// <summary>
-        /// GameHUD component used for providing game UI.
-        /// </summary>
         [SerializeField] private GameHUD gameHUD;
 
         [SerializeField] private Player player;
@@ -42,7 +39,7 @@ namespace ColourMatch
         public void Initialise()
         {
             gameCamera = ResolveServiceDependency<GameCamera>();
-            poolManager = ResolveServiceDependency<PoolManager>();
+            poolingService = ResolveServiceDependency<PoolingService>();
             stateManager = ResolveServiceDependency<StateManager>();
         }
 
@@ -114,7 +111,7 @@ namespace ColourMatch
                 var enemyPositionOnScreen = gameCamera.WorldPositionToScreenPosition(obstacle.transform.position);
                 if (enemyPositionOnScreen.y < 0)
                 {
-                    poolManager.Return(PooledObject.Obstacle, obstacle.gameObject);
+                    poolingService.Return(PooledObject.Obstacle, obstacle.gameObject);
                     player.CollisionOccurredOnPlayer -= OnEnemyHitPlayer;
                     SpawnObstacle();
                 }
@@ -127,7 +124,7 @@ namespace ColourMatch
         private void SpawnObstacle()
         {
             AudioPlayer.ObstacleSpawn();
-            var pooledObject = poolManager.Get(PooledObject.Obstacle);
+            var pooledObject = poolingService.Get(PooledObject.Obstacle);
             obstacle = pooledObject.GetComponent<Obstacle>();
             obstacle.AssignObstacleRandomColour();
             obstacle.SetPosition(
@@ -165,7 +162,7 @@ namespace ColourMatch
         {
             player.CollisionOccurredOnPlayer -= OnEnemyHitPlayer;
 
-            var playerImpactVFX = poolManager.Get(PooledObject.PlayerImpactVFX);
+            var playerImpactVFX = poolingService.Get(PooledObject.PlayerImpactVFX);
             playerImpactVFX.transform.position = playerRigidbody.position;
             playerImpactVFX.transform.rotation = Quaternion.identity;
             

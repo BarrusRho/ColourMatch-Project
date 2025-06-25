@@ -4,11 +4,11 @@ using UnityEngine.Pool;
 
 namespace ColourMatch
 {
-    public class PoolManager
+    public class PoolingService
     {
         private readonly Dictionary<PooledObject, IObjectPool<GameObject>> _objectPools = new();
 
-        public PoolManager(IEnumerable<ObjectPoolSO> pooledObjects)
+        public PoolingService(IEnumerable<ObjectPoolSO> pooledObjects)
         {
             foreach (var pooledObjectSO in pooledObjects)
             {

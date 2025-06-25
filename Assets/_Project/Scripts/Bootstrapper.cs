@@ -5,8 +5,8 @@ namespace ColourMatch
 {
     public class Bootstrapper : MonoBehaviour
     {
-        private AudioManager audioManager;
-        private PoolManager poolManager;
+        private AudioService audioService;
+        private PoolingService poolingService;
         
         [SerializeField] private GameCamera gameCamera;
 
@@ -28,15 +28,15 @@ namespace ColourMatch
 
         private void CreateServices()
         {
-            audioManager = new AudioManager();
-            poolManager = new PoolManager(objectPools);
+            audioService = new AudioService();
+            poolingService = new PoolingService(objectPools);
         }
 
         private void RegisterServices()
         {
             ServiceLocator.RegisterOnce(gameCamera);
-            ServiceLocator.RegisterOnce(audioManager);
-            ServiceLocator.RegisterOnce(poolManager);
+            ServiceLocator.RegisterOnce(audioService);
+            ServiceLocator.RegisterOnce(poolingService);
             ServiceLocator.RegisterOnce(gameManager);
             ServiceLocator.RegisterOnce(stateManager);
         }
@@ -44,8 +44,8 @@ namespace ColourMatch
         private void InitialiseServices()
         {
             gameCamera.Initialise();
-            audioManager.Initialise(audioClips, audioSources);
-            poolManager.Initialise();
+            audioService.Initialise(audioClips, audioSources);
+            poolingService.Initialise();
             gameManager.Initialise();
             stateManager.Initialise();
         }
