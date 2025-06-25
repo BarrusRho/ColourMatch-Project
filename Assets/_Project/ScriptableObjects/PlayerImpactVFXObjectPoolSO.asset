@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2593720ecb24df14486f83a62361bef8, type: 3}
-  m_Name: ObstacleObjectPool
+  m_Name: PlayerImpactVFXObjectPoolSO
   m_EditorClassIdentifier: 
-  pooledObject: 0
-  pooledObjectPrefab: {fileID: 1115082796645422, guid: deed629ef7f2c4f78a9eb1433ddfd58e,
+  pooledObject: 1
+  pooledObjectPrefab: {fileID: 1343534758114666829, guid: 77d6b75fdbcab4442aa14b46604f9128,
     type: 3}
   minPoolSize: 5
   maxPoolSize: 20
