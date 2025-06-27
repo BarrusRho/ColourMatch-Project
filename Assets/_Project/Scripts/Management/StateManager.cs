@@ -68,7 +68,11 @@ namespace ColourMatch
             
             mainMenuUI.StartGame += OnStartGame;
             difficultyMenuUI.DifficultySelected += OnDifficultySelected;
-            gameManager.GameComplete += OnGameComplete;
+            
+            EventBus.Subscribe<GameCompleteEvent>(OnGameComplete);
+            
+            var mainMenuController = ControllerFactory.Create<MainMenuController>(mainMenuUI);
+            mainMenuController.Show();
         }
 
         private void OnDisable()
@@ -80,7 +84,7 @@ namespace ColourMatch
                 difficultyMenuUI.DifficultySelected -= OnDifficultySelected;
     
             if (gameManager != null)
-                gameManager.GameComplete -= OnGameComplete;
+                EventBus.Unsubscribe<GameCompleteEvent>(OnGameComplete);
         }
 
         /// <summary>
@@ -153,7 +157,7 @@ namespace ColourMatch
         /// <summary>
         /// Triggered when the player completes a game.
         /// </summary>
-        private void OnGameComplete()
+        private void OnGameComplete(GameCompleteEvent gameCompleteEvent)
         {
             State = GameStates.MainMenu;
             AudioPlayer.NewGameStart();

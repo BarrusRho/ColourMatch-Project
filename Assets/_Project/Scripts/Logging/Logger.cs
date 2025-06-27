@@ -118,7 +118,7 @@ namespace ColourMatch
             LogChannel.Services => "green",
             LogChannel.Audio => "yellow",
             LogChannel.Gameplay => "orange",
-            LogChannel.PoolingService => "pink",
+            LogChannel.PoolingService => "#FFC0CB",
             LogChannel.Events => "blue",
             _ => "red"
         };

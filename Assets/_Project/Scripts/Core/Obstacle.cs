@@ -54,12 +54,12 @@ namespace ColourMatch
 
         public void OnSpawned()
         {
-            Debug.Log($"Obstacle has spawned");
+            Logger.BasicLog(this, $"Obstacle has spawned", LogChannel.PoolingService);
         }
 
         public void OnReturned()
         {
-            Debug.Log($"Obstacle has been returned.");
+            Logger.BasicLog(this, $"Obstacle has been returned", LogChannel.PoolingService);
         }
     }
 }

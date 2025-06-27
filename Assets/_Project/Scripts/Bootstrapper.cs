@@ -18,8 +18,13 @@ namespace ColourMatch
         
         [SerializeField] private List<ObjectPoolSO> objectPools;
         
+        [SerializeField] private LogChannelsSO logChannels;
+        
         private void Awake()
         { 
+            Logger.SetChannels(logChannels);
+            Logger.FirstTouch();
+            
             CreateServices();
             RegisterServices();
             InitialiseServices();

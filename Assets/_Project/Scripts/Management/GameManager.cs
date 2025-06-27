@@ -30,11 +30,6 @@ namespace ColourMatch
         /// The enemy in the game.
         /// </summary>
         private Obstacle obstacle;
-
-        /// <summary>
-        /// Delegate triggered when the game is complete.
-        /// </summary>
-        public Action GameComplete = delegate { };
         
         public void Initialise()
         {
@@ -178,7 +173,8 @@ namespace ColourMatch
         {
             DestroyPlayer();
             yield return new WaitForSeconds(gameVariablesSO.gameOverDelay);
-            GameComplete();
+            
+            EventBus.Fire(new GameCompleteEvent{});
         }
     }
 }
