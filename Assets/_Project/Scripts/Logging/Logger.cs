@@ -96,12 +96,12 @@ namespace ColourMatch
             LogInternal(LogType.Error, typeName, PrefixSuperSilent + message, channel);
         }
         
-        public static void Log<T>(T context, string message, LogChannel channel = LogChannel.None)
+        public static void BasicLog<T>(T context, string message, LogChannel channel = LogChannel.None)
         {
             LogInternal(LogType.Log, context, message, channel);
         }
         
-        public static void Log(string typeName, string message, LogChannel channel = LogChannel.None)
+        public static void BasicLog(string typeName, string message, LogChannel channel = LogChannel.None)
         {
             LogInternal(LogType.Log,typeName,  message, channel);
         }
@@ -119,6 +119,7 @@ namespace ColourMatch
             LogChannel.Audio => "yellow",
             LogChannel.Gameplay => "orange",
             LogChannel.PoolingService => "pink",
+            LogChannel.Events => "blue",
             _ => "red"
         };
 

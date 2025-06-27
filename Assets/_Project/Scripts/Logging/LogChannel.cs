@@ -7,6 +7,7 @@ namespace ColourMatch
         Services,
         Audio,
         Gameplay,
-        PoolingService
+        PoolingService,
+        Events
     }
 }
