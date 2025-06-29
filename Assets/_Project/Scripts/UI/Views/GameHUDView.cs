@@ -5,7 +5,7 @@ namespace ColourMatch
     /// <summary>
     /// GameHUD component, responsible for providing game UI.
     /// </summary>
-    public class GameHUD : MonoBehaviour
+    public class GameHUDView : ViewBase
     {
         /// <summary>
         /// UnityProperty field for the left ControllerButton.
@@ -26,5 +26,15 @@ namespace ColourMatch
         /// ControllerButton for moving the player right.
         /// </summary>
         public ControllerButton RightButton => rightButton;
+        
+        protected override void OnShow()
+        {
+            Logger.BasicLog(this, "GameHUD shown.", LogChannel.UI);
+        }
+
+        protected override void OnHide()
+        {
+            Logger.BasicLog(this, "GameHUD hidden.", LogChannel.UI);
+        }
     }
 }
