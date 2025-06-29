@@ -7,6 +7,7 @@ namespace ColourMatch
     {
         private AudioService audioService;
         private PoolingService poolingService;
+        private UIControllerService uiControllerService;
         
         [SerializeField] private GameCamera gameCamera;
 
@@ -18,6 +19,8 @@ namespace ColourMatch
         
         [SerializeField] private List<ObjectPoolSO> objectPools;
         
+        [SerializeField] private UIViewsRegistry uiViewsRegistry;
+        
         [SerializeField] private LogChannelsSO logChannels;
         
         private void Awake()
@@ -28,11 +31,12 @@ namespace ColourMatch
             CreateServices();
             RegisterServices();
             InitialiseServices();
-            Debug.Log("Bootstrapper: All components initialized and registered.");
+            Logger.BasicLog(this, $"Bootstrapper: All components initialized and registered.", LogChannel.BasicLog);
         }
 
         private void CreateServices()
         {
+            uiControllerService = new UIControllerService(uiViewsRegistry);
             audioService = new AudioService();
             poolingService = new PoolingService(objectPools);
         }
@@ -40,6 +44,7 @@ namespace ColourMatch
         private void RegisterServices()
         {
             ServiceLocator.RegisterOnce(gameCamera);
+            ServiceLocator.Register(uiControllerService);
             ServiceLocator.RegisterOnce(audioService);
             ServiceLocator.RegisterOnce(poolingService);
             ServiceLocator.RegisterOnce(gameManager);
@@ -49,6 +54,7 @@ namespace ColourMatch
         private void InitialiseServices()
         {
             gameCamera.Initialise();
+            uiControllerService.Initialise();
             audioService.Initialise(audioClips, audioSources);
             poolingService.Initialise();
             gameManager.Initialise();

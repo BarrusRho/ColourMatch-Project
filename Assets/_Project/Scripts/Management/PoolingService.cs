@@ -14,13 +14,13 @@ namespace ColourMatch
             {
                 if (pooledObjectSO.pooledObjectPrefab == null)
                 {
-                    Debug.LogWarning($"Skipping pool config with missing prefab for tag: {pooledObjectSO.pooledObject}");
+                    Logger.Warning(typeof(PoolingService), $"Skipping pool config with missing prefab for tag: {pooledObjectSO.pooledObject}", LogChannel.PoolingService);
                     continue;
                 }
 
                 if (_objectPools.ContainsKey(pooledObjectSO.pooledObject))
                 {
-                    Debug.LogWarning($"Duplicate pool tag: {pooledObjectSO.pooledObject}");
+                    Logger.Warning(typeof(PoolingService), $"Duplicate pool tag: {pooledObjectSO.pooledObject}", LogChannel.PoolingService);
                     continue;
                 }
 
@@ -64,7 +64,7 @@ namespace ColourMatch
                 return objectPool.Get();
             }
             
-            Debug.LogError($"No object pool found for tag: {pooledObject}");
+            Logger.Error(typeof(PoolingService), $"No object pool found for tag: {pooledObject}", LogChannel.PoolingService);
             return null;
         }
 
@@ -76,7 +76,7 @@ namespace ColourMatch
             }
             else
             {
-                Debug.LogWarning($"Pool not found for tag: {pooledObject}");
+                Logger.Error(typeof(PoolingService), $"Pool not found for tag: {pooledObject}", LogChannel.PoolingService);
                 Object.Destroy(pooledObjectPrefab);
             }
         }

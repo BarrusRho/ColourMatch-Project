@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 namespace ColourMatch
@@ -17,7 +16,7 @@ namespace ColourMatch
         private GameVariablesSO gameVariablesSO;
 
         [Header("References")]
-        [SerializeField] private GameHUD gameHUD;
+        [SerializeField] private GameHUDView gameHUDView;
 
         [SerializeField] private Player player;
 
@@ -78,17 +77,17 @@ namespace ColourMatch
         /// </summary>
         private void UpdatePlayerColour()
         {
-            if (gameHUD.LeftButton.IsButtonClicked)
+            if (gameHUDView.LeftButton.IsButtonClicked)
             {
                 AudioPlayer.ChangeColour();
                 player.DecrementPlayerColour();
-                gameHUD.LeftButton.IsButtonClicked = false;
+                gameHUDView.LeftButton.IsButtonClicked = false;
             }
-            else if (gameHUD.RightButton.IsButtonClicked)
+            else if (gameHUDView.RightButton.IsButtonClicked)
             {
                 AudioPlayer.ChangeColour();
                 player.IncrementPlayerColour();
-                gameHUD.RightButton.IsButtonClicked = false;
+                gameHUDView.RightButton.IsButtonClicked = false;
             }
         }
 
@@ -130,15 +129,15 @@ namespace ColourMatch
             if (stateManager == null) return;
             switch (stateManager.selectedDifficulty)
             {
-                case StateManager.DifficultyLevels.Easy:
+                case DifficultyLevel.Easy:
                     obstacle.ObstacleSpeed = gameVariablesSO.easyDifficultySpeed;
                     break;
                 
-                case StateManager.DifficultyLevels.Medium:
+                case DifficultyLevel.Medium:
                     obstacle.ObstacleSpeed = gameVariablesSO.mediumDifficultySpeed;
                     break;
                 
-                case StateManager.DifficultyLevels.Hard:
+                case DifficultyLevel.Hard:
                     obstacle.ObstacleSpeed = gameVariablesSO.hardDifficultySpeed;
                     break;
             }
@@ -173,7 +172,6 @@ namespace ColourMatch
         {
             DestroyPlayer();
             yield return new WaitForSeconds(gameVariablesSO.gameOverDelay);
-            
             EventBus.Fire(new GameCompleteEvent{});
         }
     }

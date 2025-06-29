@@ -6,7 +6,7 @@ namespace ColourMatch
     public class PoolableParticleVFX : MonoBehaviour, IPoolable
     {
         private ParticleSystem _particleSystem;
-        private PoolingService poolingService;
+        private PoolingService _poolingService;
         private PooledObject _pooledObject;
 
         private bool isConfigured;
@@ -22,7 +22,7 @@ namespace ColourMatch
 
         public void Configure(PoolingService poolingService, PooledObject pooledObject)
         {
-            this.poolingService = poolingService;
+            _poolingService = poolingService;
             _pooledObject = pooledObject;
             isConfigured = true;
         }
@@ -31,11 +31,11 @@ namespace ColourMatch
         {
             if (!isConfigured)
             {
-                Debug.LogWarning($"[PoolableParticleVFX] VFX not configured properly. Assign PoolManager and tag.");
+                Logger.Warning(this, $"[PoolableParticleVFX] VFX not configured properly. Assign PoolManager and tag.", LogChannel.PoolingService);
                 return;
             }
             
-            Debug.Log($"VFX has spawned");
+            Logger.BasicLog(this, $"VFX has spawned", LogChannel.PoolingService);
 
             CancelInvoke();
             InvokeRepeating(nameof(CheckIfFinished), 0.2f, 0.1f);
@@ -45,7 +45,7 @@ namespace ColourMatch
         {
             CancelInvoke();
             _particleSystem.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
-            Debug.Log($"VFX has been returned.");
+            Logger.BasicLog(this, $"VFX has been returned", LogChannel.PoolingService);
         }
 
         private void CheckIfFinished()
@@ -53,9 +53,9 @@ namespace ColourMatch
             if (_particleSystem == null || _particleSystem.IsAlive()) return;
 
             CancelInvoke();
-            if (poolingService != null)
+            if (_poolingService != null)
             {
-                poolingService.Return(_pooledObject, gameObject);
+                _poolingService.Return(_pooledObject, gameObject);
             }
             else
             {

@@ -703,12 +703,12 @@ GameObject:
   - component: {fileID: 191638273}
   - component: {fileID: 191638274}
   m_Layer: 5
-  m_Name: DifficultyMenu
+  m_Name: DifficultyMenuView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &191638273
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1979,7 +1979,7 @@ GameObject:
   - component: {fileID: 717676464}
   - component: {fileID: 717676465}
   m_Layer: 5
-  m_Name: GameHUD
+  m_Name: GameHUDView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2486,6 +2486,53 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 954450451}
   m_CullTransparentMesh: 1
+--- !u!1 &969321254
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 969321256}
+  - component: {fileID: 969321255}
+  m_Layer: 0
+  m_Name: UIVIewsRegistry
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &969321255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 969321254}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 228506a941d07c54d86e4aaf65eade06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainMenuView: {fileID: 1198572394}
+  difficultyMenuView: {fileID: 191638274}
+  gameHUDView: {fileID: 717676465}
+--- !u!4 &969321256
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 969321254}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &982186262
 GameObject:
   m_ObjectHideFlags: 0
@@ -2612,6 +2659,8 @@ MonoBehaviour:
   objectPools:
   - {fileID: 11400000, guid: 79fa053a4dd786f40b8313c9e50583a0, type: 2}
   - {fileID: 11400000, guid: c7d2572323ba8314ca1248255fd81e96, type: 2}
+  uiViewsRegistry: {fileID: 969321255}
+  logChannels: {fileID: 11400000, guid: 0bc567ce8bc693e49805f05d3e1b3235, type: 2}
 --- !u!4 &990653430
 Transform:
   m_ObjectHideFlags: 0
@@ -3091,7 +3140,7 @@ GameObject:
   - component: {fileID: 1198572393}
   - component: {fileID: 1198572394}
   m_Layer: 5
-  m_Name: MainMenu
+  m_Name: MainMenuView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3130,6 +3179,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8d774db5afc04dceb1a4041ce9507d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startGameButton: {fileID: 1230471089}
 --- !u!1 &1230471085
 GameObject:
   m_ObjectHideFlags: 0
@@ -3250,19 +3300,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1230471087}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1198572394}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: StartGameButtonPressed
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &1331154421
 GameObject:
   m_ObjectHideFlags: 0
@@ -3512,7 +3550,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameVariablesSO: {fileID: 11400000, guid: 4629a793092cbda49b542ed6181d41ae, type: 2}
-  gameHUD: {fileID: 717676465}
+  gameHUDView: {fileID: 717676465}
   player: {fileID: 1140867573}
   playerRigidbody: {fileID: 1140867572}
 --- !u!1 &1473627291
@@ -4399,8 +4437,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2d4c90a0a5af4f92829d11fd3689c9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainMenuUI: {fileID: 1198572394}
-  difficultyMenuUI: {fileID: 191638274}
   selectedDifficulty: 0
 --- !u!4 &1995779039
 Transform:
@@ -4859,6 +4895,7 @@ SceneRoots:
   - {fileID: 2041971562}
   - {fileID: 1679875371}
   - {fileID: 617553518}
+  - {fileID: 969321256}
   - {fileID: 1473627292}
   - {fileID: 1041263627}
   - {fileID: 322744109}

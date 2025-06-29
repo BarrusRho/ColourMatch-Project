@@ -21,7 +21,7 @@ namespace ColourMatch
         {
             if (!_audioClipsSO.HasAudioClip(audioTag))
             {
-                Debug.LogWarning($"{audioTag} does not exist");
+                Logger.Error(typeof(AudioService), $"{audioTag} does not exist in AudioClipsSO", LogChannel.Audio);
                 return;
             }
             
@@ -29,7 +29,7 @@ namespace ColourMatch
             var audioSource = _audioSources.FirstOrDefault(x => !x.isPlaying);
             if (audioSource == null)
             {
-                Debug.LogWarning($"No free audio sources available");
+                Logger.Warning(typeof(AudioService), "No free audio sources available", LogChannel.Audio);
                 return;
             }
             
