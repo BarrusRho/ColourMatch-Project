@@ -5,128 +5,74 @@ namespace ColourMatch
 {
     public class StateManager : MonoBehaviourServiceUser
     {
-        /// <summary>
-        /// States of the game.
-        /// </summary>
-        private enum GameStates
-        {
-            /// <summary>
-            /// Initial setup.
-            /// </summary>
-            Init,
-
-            /// <summary>
-            /// Player is in the main menu.
-            /// </summary>
-            MainMenu,
-
-            /// <summary>
-            /// Player is in the difficulty menu.
-            /// </summary>
-            DifficultyMenu,
-
-            /// <summary>
-            /// Player is playing the game.
-            /// </summary>
-            Game
-        }
-
-        public enum DifficultyLevels
-        {
-            Easy,
-            Medium,
-            Hard
-        }
-
-        /// <summary>
-        /// Game component on the toys GameObject.
-        /// </summary>
         private GameManager gameManager;
-
-        /// <summary>
-        /// MainMenu component on the main menu GameObject.
-        /// </summary>
-        [SerializeField] private MainMenuUI mainMenuUI = null;
-
-        /// <summary>
-        /// DifficultyMenu component on the difficulty GameObject.
-        /// </summary>
-        [SerializeField] private DifficultyMenuUI difficultyMenuUI = null;
-
-        /// <summary>
-        /// The current state of the game.
-        /// </summary>
-        private GameStates state = GameStates.Init;
-
-        public DifficultyLevels selectedDifficulty;
+        private UIControllerService uiControllerService;
+        
+        private GameState state = GameState.Init;
+        public DifficultyLevel selectedDifficulty;
 
         public void Initialise()
         {
             gameManager = ResolveServiceDependency<GameManager>();
-            State = GameStates.MainMenu;
+            uiControllerService = ResolveServiceDependency<UIControllerService>();
+
+            State = GameState.MainMenu;
             AudioPlayer.NewGameStart();
-            
-            mainMenuUI.StartGame += OnStartGame;
-            difficultyMenuUI.DifficultySelected += OnDifficultySelected;
-            
+
+            EventBus.Subscribe<GameStartEvent>(OnStartGame);
+            EventBus.Subscribe<DifficultySelectedEvent>(OnDifficultySelected);
             EventBus.Subscribe<GameCompleteEvent>(OnGameComplete);
-            
-            var mainMenuController = ControllerFactory.Create<MainMenuController>(mainMenuUI);
-            mainMenuController.Show();
         }
 
         private void OnDisable()
         {
-            if (mainMenuUI != null)
-                mainMenuUI.StartGame -= OnStartGame;
-    
-            if (difficultyMenuUI != null)
-                difficultyMenuUI.DifficultySelected -= OnDifficultySelected;
-    
-            if (gameManager != null)
-                EventBus.Unsubscribe<GameCompleteEvent>(OnGameComplete);
+            EventBus.Unsubscribe<GameStartEvent>(OnStartGame);
+            EventBus.Unsubscribe<DifficultySelectedEvent>(OnDifficultySelected);
+            EventBus.Unsubscribe<GameCompleteEvent>(OnGameComplete);
         }
 
         /// <summary>
         /// State of the game. Changing the state will transition the game.
         /// </summary>
-        private GameStates State
+        private GameState State
         {
             get => state;
 
             set
             {
                 // Cannot return to init.
-                if (value == GameStates.Init)
+                if (value == GameState.Init)
                 {
+                    Logger.Error(typeof(StateManager), "Attempted illegal transition to Init state.",
+                        LogChannel.Services);
                     throw new ArgumentException("Cannot return to init state.");
                 }
 
                 state = value;
+                
+                uiControllerService.HideAll();
+                gameManager.gameObject.SetActive(false);
 
                 switch (state)
                 {
-                    case GameStates.MainMenu:
-                        mainMenuUI.gameObject.SetActive(true);
-                        difficultyMenuUI.gameObject.SetActive(false);
-                        gameManager.gameObject.SetActive(false);
+                    case GameState.MainMenu:
+                        uiControllerService.Show(ViewType.MainMenu);
                         break;
 
-                    case GameStates.DifficultyMenu:
-                        mainMenuUI.gameObject.SetActive(false);
-                        difficultyMenuUI.gameObject.SetActive(true);
-                        gameManager.gameObject.SetActive(false);
+                    case GameState.DifficultyMenu:
+                        uiControllerService.Show(ViewType.DifficultyMenu);
                         break;
 
-                    case GameStates.Game:
-                        mainMenuUI.gameObject.SetActive(false);
-                        difficultyMenuUI.gameObject.SetActive(false);
+                    case GameState.Game:
+                        uiControllerService.Show(ViewType.GameHUD);
                         gameManager.gameObject.SetActive(true);
                         break;
 
-                    case GameStates.Init:
+                    case GameState.Init:
                     // Intentional fallthrough. Init isn't supported but will be explicitly handled above.
                     default:
+                        Logger.Error(typeof(StateManager), $"Invalid state transition attempted: {state}",
+                            LogChannel.Services);
                         throw new ArgumentOutOfRangeException($"State machine doesn't support state {state}.");
                 }
             }
@@ -135,9 +81,10 @@ namespace ColourMatch
         /// <summary>
         /// Triggered when the player presses the start game button.
         /// </summary>
-        private void OnStartGame()
+        private void OnStartGame(GameStartEvent gameStartEvent)
         {
-            State = GameStates.DifficultyMenu;
+            Logger.BasicLog(typeof(StateManager), "StartGameEvent received — changing state.", LogChannel.UI);
+            State = GameState.DifficultyMenu;
             AudioPlayer.Click();
             AudioPlayer.Confirm();
         }
@@ -145,10 +92,10 @@ namespace ColourMatch
         /// <summary>
         /// Triggered when the player chooses a difficulty.
         /// </summary>
-        private void OnDifficultySelected(DifficultyLevels difficulty)
+        private void OnDifficultySelected(DifficultySelectedEvent difficultySelectedEvent)
         {
-            selectedDifficulty = difficulty;
-            State = GameStates.Game;
+            selectedDifficulty = difficultySelectedEvent.DifficultyLevel;
+            State = GameState.Game;
             gameManager.InitialiseGame();
             AudioPlayer.Click();
             AudioPlayer.Confirm();
@@ -159,7 +106,7 @@ namespace ColourMatch
         /// </summary>
         private void OnGameComplete(GameCompleteEvent gameCompleteEvent)
         {
-            State = GameStates.MainMenu;
+            State = GameState.MainMenu;
             AudioPlayer.NewGameStart();
         }
     }
