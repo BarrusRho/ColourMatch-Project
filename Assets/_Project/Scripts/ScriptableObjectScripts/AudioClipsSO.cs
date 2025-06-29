@@ -24,9 +24,9 @@ namespace ColourMatch
 
         public AudioClip GetAudioClip(AudioTag audioTag)
         {
-            if (!audioClips.TryGetValue(audioTag, out var audioClip))
+            if (!audioClips.TryGetValue(audioTag, out var audioClip) || audioClip == null)
             {
-                Logger.Error(typeof(AudioClipsSO), $"Missing AudioClip for AudioTag {audioTag}", LogChannel.Audio);
+                Logger.Error(typeof(AudioClipsSO), $"Missing or null AudioClip for AudioTag {audioTag}", LogChannel.Audio);
             }
 
             return audioClip;
