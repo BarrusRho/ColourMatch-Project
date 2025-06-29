@@ -1,21 +1,21 @@
 ﻿using System;
-using UnityEngine;
 
 namespace ColourMatch
 {
-    public class StateManager : MonoBehaviourServiceUser
+    public class GameStateService
     {
-        private GameManager gameManager;
-        private ControllerService controllerService;
+        private ControllerService _controllerService;
         
         private GameState state = GameState.Init;
-        public DifficultyLevel selectedDifficulty;
+        private DifficultyLevel selectedDifficulty;
+
+        public GameStateService(ControllerService controllerService)
+        {
+            _controllerService = controllerService;
+        }
 
         public void Initialise()
         {
-            gameManager = ResolveServiceDependency<GameManager>();
-            controllerService = ResolveServiceDependency<ControllerService>();
-
             State = GameState.MainMenu;
             AudioPlayer.NewGameStart();
 
@@ -24,7 +24,7 @@ namespace ColourMatch
             EventBus.Subscribe<GameCompleteEvent>(OnGameComplete);
         }
 
-        private void OnDisable()
+        public void Dispose()
         {
             EventBus.Unsubscribe<GameStartEvent>(OnStartGame);
             EventBus.Unsubscribe<DifficultySelectedEvent>(OnDifficultySelected);
@@ -43,35 +43,33 @@ namespace ColourMatch
                 // Cannot return to init.
                 if (value == GameState.Init)
                 {
-                    Logger.Error(typeof(StateManager), "Attempted illegal transition to Init state.",
+                    Logger.Error(typeof(GameStateService), "Attempted illegal transition to Init state.",
                         LogChannel.Services);
                     throw new ArgumentException("Cannot return to init state.");
                 }
 
                 state = value;
                 
-                controllerService.HideAll();
-                gameManager.gameObject.SetActive(false);
+                _controllerService.HideAll();
 
                 switch (state)
                 {
                     case GameState.MainMenu:
-                        controllerService.Show(ViewType.MainMenu);
+                        _controllerService.Show(ViewType.MainMenu);
                         break;
 
                     case GameState.DifficultyMenu:
-                        controllerService.Show(ViewType.DifficultyMenu);
+                        _controllerService.Show(ViewType.DifficultyMenu);
                         break;
 
                     case GameState.Game:
-                        controllerService.Show(ViewType.GameHUD);
-                        gameManager.gameObject.SetActive(true);
+                        _controllerService.Show(ViewType.GameHUD);
                         break;
 
                     case GameState.Init:
                     // Intentional fallthrough. Init isn't supported but will be explicitly handled above.
                     default:
-                        Logger.Error(typeof(StateManager), $"Invalid state transition attempted: {state}",
+                        Logger.Error(typeof(GameStateService), $"Invalid state transition attempted: {state}",
                             LogChannel.Services);
                         throw new ArgumentOutOfRangeException($"State machine doesn't support state {state}.");
                 }
@@ -83,7 +81,7 @@ namespace ColourMatch
         /// </summary>
         private void OnStartGame(GameStartEvent gameStartEvent)
         {
-            Logger.BasicLog(typeof(StateManager), "StartGameEvent received — changing state.", LogChannel.UI);
+            Logger.BasicLog(typeof(GameStateService), "StartGameEvent received — changing state.", LogChannel.UI);
             State = GameState.DifficultyMenu;
             AudioPlayer.Click();
             AudioPlayer.Confirm();
@@ -96,7 +94,9 @@ namespace ColourMatch
         {
             selectedDifficulty = difficultySelectedEvent.DifficultyLevel;
             State = GameState.Game;
-            gameManager.InitialiseGame();
+            
+            EventBus.Fire(new GameBeginEvent(selectedDifficulty));
+            
             AudioPlayer.Click();
             AudioPlayer.Confirm();
         }

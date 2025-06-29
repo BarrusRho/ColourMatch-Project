@@ -744,6 +744,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64a15c9dd848f473ea480fabf4f44e17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  easyButton: {fileID: 1998380203}
+  mediumButton: {fileID: 1729604885}
+  hardButton: {fileID: 749354598}
 --- !u!1 &211261159
 GameObject:
   m_ObjectHideFlags: 0
@@ -2141,31 +2144,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 749354596}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 191638274}
-        m_TargetAssemblyTypeName: DodgyBoxes.DifficultyMenuUI, DodgyBoxes
-        m_MethodName: OnHardButtonPressed
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 191638274}
-        m_TargetAssemblyTypeName: DodgyBoxes.DifficultyMenuUI, DodgyBoxes
-        m_MethodName: OnDifficultySelectedButtonPressed
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &871477946
 GameObject:
   m_ObjectHideFlags: 0
@@ -2646,7 +2625,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCamera: {fileID: 1679875372}
-  stateManager: {fileID: 1995779038}
   gameManager: {fileID: 1387852824}
   audioClips: {fileID: 11400000, guid: 9cd9dc22f94be3a4f8d91c5fea7fdc44, type: 2}
   audioSources:
@@ -3525,7 +3503,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1387852823
 Transform:
   m_ObjectHideFlags: 0
@@ -3554,7 +3532,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameVariablesSO: {fileID: 11400000, guid: 4629a793092cbda49b542ed6181d41ae, type: 2}
-  gameHUDView: {fileID: 717676465}
   player: {fileID: 1140867573}
   playerRigidbody: {fileID: 1140867572}
 --- !u!1 &1473627291
@@ -4274,31 +4251,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1729604883}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 191638274}
-        m_TargetAssemblyTypeName: DodgyBoxes.DifficultyMenuUI, DodgyBoxes
-        m_MethodName: OnMediumButtonPressed
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 191638274}
-        m_TargetAssemblyTypeName: DodgyBoxes.DifficultyMenuUI, DodgyBoxes
-        m_MethodName: OnDifficultySelectedButtonPressed
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &1773365010
 GameObject:
   m_ObjectHideFlags: 0
@@ -4412,51 +4365,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1978270695}
   m_CullTransparentMesh: 1
---- !u!1 &1995779037
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1995779039}
-  - component: {fileID: 1995779038}
-  m_Layer: 0
-  m_Name: StateManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1995779038
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1995779037}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2d4c90a0a5af4f92829d11fd3689c9d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  selectedDifficulty: 0
---- !u!4 &1995779039
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1995779037}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1998380199
 GameObject:
   m_ObjectHideFlags: 0
@@ -4577,31 +4485,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1998380201}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 191638274}
-        m_TargetAssemblyTypeName: DodgyBoxes.DifficultyMenuUI, DodgyBoxes
-        m_MethodName: OnEasyButtonPressed
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 191638274}
-        m_TargetAssemblyTypeName: DodgyBoxes.DifficultyMenuUI, DodgyBoxes
-        m_MethodName: OnDifficultySelectedButtonPressed
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &2027565890
 GameObject:
   m_ObjectHideFlags: 0
@@ -4907,7 +4791,6 @@ SceneRoots:
   - {fileID: 1694353915}
   - {fileID: 713949719}
   - {fileID: 1387852823}
-  - {fileID: 1995779039}
   - {fileID: 948762516}
   - {fileID: 1140867570}
   - {fileID: 15978239}

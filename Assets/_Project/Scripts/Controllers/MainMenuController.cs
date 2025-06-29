@@ -4,10 +4,10 @@ namespace ColourMatch
     {
         protected override void OnInit()
         {
-            View.OnStartButtonClicked += OnOnStartGameButtonClicked;
+            View.OnStartGameButtonClicked += OnStartGameSelected;
         }
 
-        private void OnOnStartGameButtonClicked()
+        private void OnStartGameSelected()
         {
             Logger.BasicLog(typeof(MainMenuController), "Start button clicked (controller) — firing event.", LogChannel.UI);
             EventBus.Fire(new GameStartEvent());

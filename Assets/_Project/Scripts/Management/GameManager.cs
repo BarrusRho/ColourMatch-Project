@@ -3,43 +3,42 @@ using UnityEngine;
 
 namespace ColourMatch
 {
-    /// <summary>
-    /// Game component responsible for the behaviour and logic of the game. 
-    /// </summary>
     public class GameManager : MonoBehaviourServiceUser
     {
         private GameCamera gameCamera;
         private PoolingService poolingService;
-        private StateManager stateManager;
         
         [Header("Scriptable Objects")] [SerializeField]
         private GameVariablesSO gameVariablesSO;
 
         [Header("References")]
-        [SerializeField] private GameHUDView gameHUDView;
-
         [SerializeField] private Player player;
-
-        /// <summary>
-        /// Rigidbody2D component of the player.
-        /// </summary>
         [SerializeField] private Rigidbody2D playerRigidbody;
-
-        /// <summary>
-        /// The enemy in the game.
-        /// </summary>
         private Obstacle obstacle;
+
+        private DifficultyLevel currentDifficultyLevel;
+        private bool isGameRunning = false;
         
         public void Initialise()
         {
             gameCamera = ResolveServiceDependency<GameCamera>();
             poolingService = ResolveServiceDependency<PoolingService>();
-            stateManager = ResolveServiceDependency<StateManager>();
         }
 
-        private void Update()
+        private void OnEnable()
         {
-            UpdatePlayerColour();
+            EventBus.Subscribe<GameBeginEvent>(OnGameBegin);
+            EventBus.Subscribe<GameCompleteEvent>(OnGameComplete);
+            EventBus.Subscribe<LeftButtonClickedEvent>(OnLeftButtonClicked);
+            EventBus.Subscribe<RightButtonClickedEvent>(OnRightButtonClicked);
+        }
+
+        private void OnDisable()
+        {
+            EventBus.Unsubscribe<GameBeginEvent>(OnGameBegin);
+            EventBus.Unsubscribe<GameCompleteEvent>(OnGameComplete);
+            EventBus.Unsubscribe<LeftButtonClickedEvent>(OnLeftButtonClicked);
+            EventBus.Unsubscribe<RightButtonClickedEvent>(OnRightButtonClicked);
         }
 
         /// <summary>
@@ -47,7 +46,20 @@ namespace ColourMatch
         /// </summary>
         private void FixedUpdate()
         {
+            if (!isGameRunning) return;
             UpdateObstacles();
+        }
+
+        private void OnGameBegin(GameBeginEvent gameBeginEvent)
+        {
+            isGameRunning = true;
+            currentDifficultyLevel = gameBeginEvent.DifficultyLevel;
+            InitialiseGame();
+        }
+
+        private void OnGameComplete(GameCompleteEvent gameCompleteEvent)
+        {
+            isGameRunning = false;
         }
 
         /// <summary>
@@ -72,23 +84,18 @@ namespace ColourMatch
             playerRigidbody.position = playerWorldPosition;
         }
 
-        /// <summary>
-        /// Update the player colour based on the input.
-        /// </summary>
-        private void UpdatePlayerColour()
+        private void OnLeftButtonClicked(LeftButtonClickedEvent leftButtonClickedEvent)
         {
-            if (gameHUDView.LeftButton.IsButtonClicked)
-            {
-                AudioPlayer.ChangeColour();
-                player.DecrementPlayerColour();
-                gameHUDView.LeftButton.IsButtonClicked = false;
-            }
-            else if (gameHUDView.RightButton.IsButtonClicked)
-            {
-                AudioPlayer.ChangeColour();
-                player.IncrementPlayerColour();
-                gameHUDView.RightButton.IsButtonClicked = false;
-            }
+            Logger.BasicLog(this, "Left button input received — changing player colour.", LogChannel.Gameplay);
+            AudioPlayer.ChangeColour();
+            player.DecrementPlayerColour();
+        }
+
+        private void OnRightButtonClicked(RightButtonClickedEvent rightButtonClickedEvent)
+        {
+            Logger.BasicLog(this, "Right button input received — changing player colour.", LogChannel.Gameplay);
+            AudioPlayer.ChangeColour();
+            player.IncrementPlayerColour();
         }
 
         /// <summary>
@@ -126,8 +133,7 @@ namespace ColourMatch
             );
             player.CollisionOccurredOnPlayer += OnEnemyHitPlayer;
 
-            if (stateManager == null) return;
-            switch (stateManager.selectedDifficulty)
+            switch (currentDifficultyLevel)
             {
                 case DifficultyLevel.Easy:
                     obstacle.ObstacleSpeed = gameVariablesSO.easyDifficultySpeed;

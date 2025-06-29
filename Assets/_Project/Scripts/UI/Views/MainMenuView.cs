@@ -8,24 +8,24 @@ namespace ColourMatch
     {
         [SerializeField] private Button startGameButton;
 
-        public event Action OnStartButtonClicked;
+        public event Action OnStartGameButtonClicked;
         
         protected override void OnShow()
         {
             Logger.BasicLog(this, "Main menu shown.", LogChannel.UI);
-            startGameButton.onClick.AddListener(StartGameButtonPressed);
+            startGameButton.onClick.AddListener(OnStartGameButtonPressed);
         }
 
         protected override void OnHide()
         {
             Logger.BasicLog(this, "Main menu hidden.", LogChannel.UI);
-            startGameButton.onClick.RemoveListener(StartGameButtonPressed);
+            startGameButton.onClick.RemoveListener(OnStartGameButtonPressed);
         }
 
-        private void StartGameButtonPressed()
+        private void OnStartGameButtonPressed()
         {
             Logger.BasicLog(this, "Start game button pressed — firing event.", LogChannel.UI);
-            OnStartButtonClicked?.Invoke();
+            OnStartGameButtonClicked?.Invoke();
         }
     }
 }
