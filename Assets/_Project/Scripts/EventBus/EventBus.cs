@@ -18,7 +18,7 @@ namespace ColourMatch
             if (!_listeners[type].Contains(callback))
             {
                 _listeners[type].Add(callback);
-                Debug.Log($"[EventBus] Subscribed to {type.Name}");
+                Logger.BasicLog(typeof(EventBus), $"Subscribed to {type.Name}", LogChannel.Events);
             }
         }
 
@@ -27,7 +27,7 @@ namespace ColourMatch
             var type = typeof(T);
             if (_listeners.TryGetValue(type, out var list) && list.Remove(callback))
             {
-                Debug.Log($"[EventBus] Unsubscribed from {type.Name}");
+                Logger.BasicLog(typeof(EventBus), $"Unsubscribed from {type.Name}", LogChannel.Events);
             }
         }
         
@@ -52,7 +52,7 @@ namespace ColourMatch
         public static void Clear()
         {
             _listeners.Clear();
-            Debug.Log("[EventBus] All listeners cleared.");
+            Logger.BasicLog(typeof(EventBus), "All listeners cleared.", LogChannel.Events);
         }
     }
 }

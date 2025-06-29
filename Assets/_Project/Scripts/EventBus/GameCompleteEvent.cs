@@ -1,4 +1,6 @@
-﻿public struct GameCompleteEvent
+﻿namespace ColourMatch
 {
-    
+    public readonly struct GameCompleteEvent
+    {
+    }
 }
