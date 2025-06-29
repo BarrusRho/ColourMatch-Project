@@ -114,12 +114,14 @@ namespace ColourMatch
         private static string GetColor(LogChannel channel) => channel switch
         {
             LogChannel.None => "cyan",
+            LogChannel.BasicLog => "black",
             LogChannel.Authentification => "magenta",
             LogChannel.Services => "green",
             LogChannel.Audio => "yellow",
             LogChannel.Gameplay => "orange",
             LogChannel.PoolingService => "#FFC0CB",
             LogChannel.Events => "blue",
+            LogChannel.UI => "white",
             _ => "red"
         };
 
