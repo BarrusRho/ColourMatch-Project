@@ -26,7 +26,7 @@ namespace ColourMatch
         {
             if (!audioClips.TryGetValue(audioTag, out var audioClip))
             {
-                Debug.LogWarning($"No SoundEffectClip found for AudioTag {audioTag}");
+                Logger.Error(typeof(AudioClipsSO), $"Missing AudioClip for AudioTag {audioTag}", LogChannel.Audio);
             }
 
             return audioClip;
