@@ -2497,7 +2497,7 @@ GameObject:
   - component: {fileID: 969321256}
   - component: {fileID: 969321255}
   m_Layer: 0
-  m_Name: UIVIewsRegistry
+  m_Name: VIewRegistry
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2515,9 +2515,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 228506a941d07c54d86e4aaf65eade06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainMenuView: {fileID: 1198572394}
-  difficultyMenuView: {fileID: 191638274}
-  gameHUDView: {fileID: 717676465}
+  views:
+  - viewType: 0
+    view: {fileID: 1198572394}
+  - viewType: 1
+    view: {fileID: 191638274}
+  - viewType: 2
+    view: {fileID: 717676465}
 --- !u!4 &969321256
 Transform:
   m_ObjectHideFlags: 0
@@ -2659,7 +2663,7 @@ MonoBehaviour:
   objectPools:
   - {fileID: 11400000, guid: 79fa053a4dd786f40b8313c9e50583a0, type: 2}
   - {fileID: 11400000, guid: c7d2572323ba8314ca1248255fd81e96, type: 2}
-  uiViewsRegistry: {fileID: 969321255}
+  viewRegistry: {fileID: 969321255}
   logChannels: {fileID: 11400000, guid: 0bc567ce8bc693e49805f05d3e1b3235, type: 2}
 --- !u!4 &990653430
 Transform:

@@ -6,7 +6,7 @@ namespace ColourMatch
     public class StateManager : MonoBehaviourServiceUser
     {
         private GameManager gameManager;
-        private UIControllerService uiControllerService;
+        private ControllerService controllerService;
         
         private GameState state = GameState.Init;
         public DifficultyLevel selectedDifficulty;
@@ -14,7 +14,7 @@ namespace ColourMatch
         public void Initialise()
         {
             gameManager = ResolveServiceDependency<GameManager>();
-            uiControllerService = ResolveServiceDependency<UIControllerService>();
+            controllerService = ResolveServiceDependency<ControllerService>();
 
             State = GameState.MainMenu;
             AudioPlayer.NewGameStart();
@@ -50,21 +50,21 @@ namespace ColourMatch
 
                 state = value;
                 
-                uiControllerService.HideAll();
+                controllerService.HideAll();
                 gameManager.gameObject.SetActive(false);
 
                 switch (state)
                 {
                     case GameState.MainMenu:
-                        uiControllerService.Show(ViewType.MainMenu);
+                        controllerService.Show(ViewType.MainMenu);
                         break;
 
                     case GameState.DifficultyMenu:
-                        uiControllerService.Show(ViewType.DifficultyMenu);
+                        controllerService.Show(ViewType.DifficultyMenu);
                         break;
 
                     case GameState.Game:
-                        uiControllerService.Show(ViewType.GameHUD);
+                        controllerService.Show(ViewType.GameHUD);
                         gameManager.gameObject.SetActive(true);
                         break;
 

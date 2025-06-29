@@ -11,5 +11,6 @@ namespace ColourMatch
         PoolingService,
         Events,
         UI,
+        ControllerService
     }
 }

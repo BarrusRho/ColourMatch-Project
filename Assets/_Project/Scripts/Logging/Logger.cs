@@ -122,6 +122,7 @@ namespace ColourMatch
             LogChannel.PoolingService => "#FFC0CB",
             LogChannel.Events => "blue",
             LogChannel.UI => "white",
+            LogChannel.ControllerService => "#FFC0CB",
             _ => "red"
         };
 

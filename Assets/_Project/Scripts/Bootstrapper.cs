@@ -7,7 +7,7 @@ namespace ColourMatch
     {
         private AudioService audioService;
         private PoolingService poolingService;
-        private UIControllerService uiControllerService;
+        private ControllerService controllerService;
         
         [SerializeField] private GameCamera gameCamera;
 
@@ -19,7 +19,7 @@ namespace ColourMatch
         
         [SerializeField] private List<ObjectPoolSO> objectPools;
         
-        [SerializeField] private UIViewsRegistry uiViewsRegistry;
+        [SerializeField] private ViewRegistry viewRegistry;
         
         [SerializeField] private LogChannelsSO logChannels;
         
@@ -36,7 +36,7 @@ namespace ColourMatch
 
         private void CreateServices()
         {
-            uiControllerService = new UIControllerService(uiViewsRegistry);
+            controllerService = new ControllerService(viewRegistry);
             audioService = new AudioService();
             poolingService = new PoolingService(objectPools);
         }
@@ -44,7 +44,7 @@ namespace ColourMatch
         private void RegisterServices()
         {
             ServiceLocator.RegisterOnce(gameCamera);
-            ServiceLocator.Register(uiControllerService);
+            ServiceLocator.Register(controllerService);
             ServiceLocator.RegisterOnce(audioService);
             ServiceLocator.RegisterOnce(poolingService);
             ServiceLocator.RegisterOnce(gameManager);
@@ -54,7 +54,7 @@ namespace ColourMatch
         private void InitialiseServices()
         {
             gameCamera.Initialise();
-            uiControllerService.Initialise();
+            controllerService.Initialise();
             audioService.Initialise(audioClips, audioSources);
             poolingService.Initialise();
             gameManager.Initialise();
