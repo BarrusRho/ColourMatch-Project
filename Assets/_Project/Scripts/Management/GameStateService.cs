@@ -4,14 +4,11 @@ namespace ColourMatch
 {
     public class GameStateService
     {
-        private ControllerService _controllerService;
-        
         private GameState state = GameState.Init;
         private DifficultyLevel selectedDifficulty;
 
-        public GameStateService(ControllerService controllerService)
+        public GameStateService()
         {
-            _controllerService = controllerService;
         }
 
         public void Initialise()
@@ -37,10 +34,8 @@ namespace ColourMatch
         private GameState State
         {
             get => state;
-
             set
             {
-                // Cannot return to init.
                 if (value == GameState.Init)
                 {
                     Logger.Error(typeof(GameStateService), "Attempted illegal transition to Init state.",
@@ -49,25 +44,22 @@ namespace ColourMatch
                 }
 
                 state = value;
-                
-                _controllerService.HideAll();
 
                 switch (state)
                 {
                     case GameState.MainMenu:
-                        _controllerService.Show(ViewType.MainMenu);
+                        EventBus.Fire(new ViewTransitionEvent(ViewType.MainMenu));
                         break;
 
                     case GameState.DifficultyMenu:
-                        _controllerService.Show(ViewType.DifficultyMenu);
+                        EventBus.Fire(new ViewTransitionEvent(ViewType.DifficultyMenu));
                         break;
 
                     case GameState.Game:
-                        _controllerService.Show(ViewType.GameHUD);
+                        EventBus.Fire(new ViewTransitionEvent(ViewType.GameHUD));
                         break;
 
                     case GameState.Init:
-                    // Intentional fallthrough. Init isn't supported but will be explicitly handled above.
                     default:
                         Logger.Error(typeof(GameStateService), $"Invalid state transition attempted: {state}",
                             LogChannel.Services);

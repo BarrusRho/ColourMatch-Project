@@ -44,7 +44,19 @@ namespace ColourMatch
 
         public void Initialise()
         {
-            
+            EventBus.Subscribe<ViewTransitionEvent>(OnViewTransition);
+        }
+
+        public void Dispose()
+        {
+            EventBus.Unsubscribe<ViewTransitionEvent>(OnViewTransition);
+        }
+
+        private void OnViewTransition(ViewTransitionEvent viewTransitionEvent)
+        {
+            Logger.BasicLog(typeof(ControllerService), $"ViewTransitionEvent received: showing {viewTransitionEvent.ViewToShow}", LogChannel.ControllerService);
+            HideAll();
+            Show(viewTransitionEvent.ViewToShow);
         }
 
         public void Show(ViewType viewType)

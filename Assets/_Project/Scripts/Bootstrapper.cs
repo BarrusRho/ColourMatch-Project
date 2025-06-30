@@ -38,7 +38,7 @@ namespace ColourMatch
         {
             controllerService = new ControllerService(viewRegistry);
             audioService = new AudioService();
-            gameStateService = new GameStateService(controllerService);
+            gameStateService = new GameStateService();
             poolingService = new PoolingService(objectPools);
         }
 
@@ -65,6 +65,7 @@ namespace ColourMatch
         private void OnDestroy()
         {
             ServiceLocator.Get<GameStateService>().Dispose();
+            ServiceLocator.Get<ControllerService>().Dispose();
         }
     }
 }
