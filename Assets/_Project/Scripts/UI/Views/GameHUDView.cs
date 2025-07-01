@@ -5,11 +5,11 @@ namespace ColourMatch
 {
     public class GameHUDView : ViewBase
     {
-        [SerializeField] private ControllerButton leftButton;
-        [SerializeField] private ControllerButton rightButton;
+        [SerializeField] private ClickButtonView leftButton;
+        [SerializeField] private ClickButtonView rightButton;
         
-        public ControllerButton LeftButton => leftButton;
-        public ControllerButton RightButton => rightButton;
+        public ClickButtonView LeftButton => leftButton;
+        public ClickButtonView RightButton => rightButton;
         
         public event Action OnLeftButtonClicked;
         public event Action OnRightButtonClicked;

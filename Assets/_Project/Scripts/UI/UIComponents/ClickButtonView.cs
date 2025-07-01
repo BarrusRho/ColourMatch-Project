@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 
 namespace ColourMatch
 {
-    public class ControllerButton : MonoBehaviour, IPointerClickHandler
+    public class ClickButtonView : MonoBehaviour, IPointerClickHandler
     {
         public bool IsButtonClicked { get; set; }
 
