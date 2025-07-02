@@ -5,24 +5,28 @@ namespace ColourMatch
 {
     public class GameManager : MonoBehaviourServiceUser
     {
-        private GameCamera gameCamera;
-        private PoolingService poolingService;
-        
-        [Header("Scriptable Objects")] [SerializeField]
-        private GameVariablesSO gameVariablesSO;
-
         [Header("References")]
-        [SerializeField] private Player player;
-        [SerializeField] private Rigidbody2D playerRigidbody;
-        private Obstacle obstacle;
+        [SerializeField] private PlayerView playerView;
+        
+        private GameCamera gameCamera;
+        private GameConfigService gameConfigService;
+        private PoolingService poolingService;
+        private PlayerController playerController;
 
         private DifficultyLevel currentDifficultyLevel;
+        
+        private Obstacle obstacle;
+
         private bool isGameRunning = false;
         
         public void Initialise()
         {
             gameCamera = ResolveServiceDependency<GameCamera>();
+            gameConfigService = ResolveServiceDependency<GameConfigService>();
             poolingService = ResolveServiceDependency<PoolingService>();
+            
+            playerController = new PlayerController();
+            playerController.Init(playerView);
         }
 
         private void OnEnable()
@@ -31,6 +35,7 @@ namespace ColourMatch
             EventBus.Subscribe<GameCompleteEvent>(OnGameComplete);
             EventBus.Subscribe<LeftButtonClickedEvent>(OnLeftButtonClicked);
             EventBus.Subscribe<RightButtonClickedEvent>(OnRightButtonClicked);
+            EventBus.Subscribe<ColourMismatchEvent>(OnEnemyHitPlayer);
         }
 
         private void OnDisable()
@@ -39,11 +44,9 @@ namespace ColourMatch
             EventBus.Unsubscribe<GameCompleteEvent>(OnGameComplete);
             EventBus.Unsubscribe<LeftButtonClickedEvent>(OnLeftButtonClicked);
             EventBus.Unsubscribe<RightButtonClickedEvent>(OnRightButtonClicked);
+            EventBus.Unsubscribe<ColourMismatchEvent>(OnEnemyHitPlayer);
         }
-
-        /// <summary>
-        /// Update the physics based components with in the game, namely the player, and enemy. 
-        /// </summary>
+        
         private void FixedUpdate()
         {
             if (!isGameRunning) return;
@@ -67,8 +70,10 @@ namespace ColourMatch
         /// </summary>
         public void InitialiseGame()
         {
-            playerRigidbody.gameObject.SetActive(true);
-            player.AssignPlayerRandomColour();
+            playerView.gameObject.SetActive(true);
+            playerView.PlayerRigidbody.gameObject.SetActive(true);
+            playerController.Reset();
+            
             SetPlayerPosition();
             SpawnObstacle();
         }
@@ -81,21 +86,19 @@ namespace ColourMatch
             var fixedYPosition = Screen.height * 0.33f;
             var playerScreenPosition = new Vector2(Screen.width * 0.5f, fixedYPosition);
             var playerWorldPosition = gameCamera.ScreenPositionToWorldPosition(playerScreenPosition);
-            playerRigidbody.position = playerWorldPosition;
+            playerView.PlayerRigidbody.position = playerWorldPosition;
         }
 
         private void OnLeftButtonClicked(LeftButtonClickedEvent leftButtonClickedEvent)
         {
             Logger.BasicLog(this, "Left button input received — changing player colour.", LogChannel.Gameplay);
-            AudioPlayer.ChangeColour();
-            player.DecrementPlayerColour();
+            playerController.DecrementColour();
         }
 
         private void OnRightButtonClicked(RightButtonClickedEvent rightButtonClickedEvent)
         {
             Logger.BasicLog(this, "Right button input received — changing player colour.", LogChannel.Gameplay);
-            AudioPlayer.ChangeColour();
-            player.IncrementPlayerColour();
+            playerController.IncrementColour();
         }
 
         /// <summary>
@@ -113,7 +116,7 @@ namespace ColourMatch
                 if (enemyPositionOnScreen.y < 0)
                 {
                     poolingService.Return(PooledObject.Obstacle, obstacle.gameObject);
-                    player.CollisionOccurredOnPlayer -= OnEnemyHitPlayer;
+                    //player.CollisionOccurredOnPlayer -= OnEnemyHitPlayer;
                     SpawnObstacle();
                 }
             }
@@ -131,43 +134,27 @@ namespace ColourMatch
             obstacle.SetPosition(
                 gameCamera.ScreenPositionToWorldPosition(new Vector2(Screen.width * 0.5f, Screen.height))
             );
-            player.CollisionOccurredOnPlayer += OnEnemyHitPlayer;
-
-            switch (currentDifficultyLevel)
-            {
-                case DifficultyLevel.Easy:
-                    obstacle.ObstacleSpeed = gameVariablesSO.easyDifficultySpeed;
-                    break;
-                
-                case DifficultyLevel.Medium:
-                    obstacle.ObstacleSpeed = gameVariablesSO.mediumDifficultySpeed;
-                    break;
-                
-                case DifficultyLevel.Hard:
-                    obstacle.ObstacleSpeed = gameVariablesSO.hardDifficultySpeed;
-                    break;
-            }
+            
+            obstacle.ObstacleSpeed = gameConfigService.GetSpeedByDifficulty(currentDifficultyLevel);
         }
 
         /// <summary>
         /// Triggered when the enemy hits the player.
         /// </summary>
         /// <param name="playerObject">Player instance which the enemy has hit.</param>
-        private void OnEnemyHitPlayer(Player playerObject)
+        private void OnEnemyHitPlayer(ColourMismatchEvent colourMismatchEvent)
         {
             StartCoroutine(GameOverRoutine());
         }
 
         private void DestroyPlayer()
         {
-            player.CollisionOccurredOnPlayer -= OnEnemyHitPlayer;
-
             var playerImpactVFX = poolingService.Get(PooledObject.PlayerImpactVFX);
-            playerImpactVFX.transform.position = playerRigidbody.position;
+            playerImpactVFX.transform.position = playerView.PlayerRigidbody.position;
             playerImpactVFX.transform.rotation = Quaternion.identity;
             
             AudioPlayer.PlayerImpact();
-            player.gameObject.SetActive(false);
+            playerView.gameObject.SetActive(false);
         }
 
         /// <summary>
@@ -177,7 +164,7 @@ namespace ColourMatch
         private IEnumerator GameOverRoutine()
         {
             DestroyPlayer();
-            yield return new WaitForSeconds(gameVariablesSO.gameOverDelay);
+            yield return new WaitForSeconds(gameConfigService.GameOverDelay);
             EventBus.Fire(new GameCompleteEvent{});
         }
     }

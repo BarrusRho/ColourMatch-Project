@@ -2624,6 +2624,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e801b6928f6feb945b7d5663a758c579, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameVariablesSO: {fileID: 11400000, guid: 4629a793092cbda49b542ed6181d41ae, type: 2}
   gameCamera: {fileID: 1679875372}
   gameManager: {fileID: 1387852824}
   audioClips: {fileID: 11400000, guid: 9cd9dc22f94be3a4f8d91c5fea7fdc44, type: 2}
@@ -2852,7 +2853,7 @@ GameObject:
   - component: {fileID: 1140867570}
   - component: {fileID: 1140867572}
   - component: {fileID: 1140867574}
-  - component: {fileID: 1140867573}
+  - component: {fileID: 1140867575}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -2903,20 +2904,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &1140867573
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1140867568}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a1b78fb91270a6f419604793aac8d304, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gameVariablesSO: {fileID: 11400000, guid: 4629a793092cbda49b542ed6181d41ae, type: 2}
-  playerSpriteRenderer: {fileID: 1169916085}
 --- !u!58 &1140867574
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -2952,6 +2939,20 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.275
+--- !u!114 &1140867575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1140867568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1bfd7413f2b7154b82fe763675102dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerSpriteRenderer: {fileID: 1169916085}
+  playerRigidbody: {fileID: 1140867572}
 --- !u!1 &1154391307
 GameObject:
   m_ObjectHideFlags: 0
@@ -3532,8 +3533,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameVariablesSO: {fileID: 11400000, guid: 4629a793092cbda49b542ed6181d41ae, type: 2}
-  player: {fileID: 1140867573}
-  playerRigidbody: {fileID: 1140867572}
+  playerView: {fileID: 1140867575}
 --- !u!1 &1473627291
 GameObject:
   m_ObjectHideFlags: 0
