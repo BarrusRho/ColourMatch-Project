@@ -5,16 +5,22 @@ namespace ColourMatch
 {
     public class Obstacle : MonoBehaviour, IPoolable
     {
-        [SerializeField] private GameVariablesSO gameVariablesSO;
-        [SerializeField] private SpriteRenderer obstacleSpriteRenderer;
-        [SerializeField] private Rigidbody2D obstacleRigidBody = null;
+        private GameConfigService gameConfigService;
         
-        private string currentObstacleColour;
-        private string previousObstacleColour; 
-        public string CurrentObstacleColour => currentObstacleColour;
+        [SerializeField] private SpriteRenderer obstacleSpriteRenderer;
+        [SerializeField] private Rigidbody2D obstacleRigidBody;
+        
+        private static readonly ColourType[] availableColours = (ColourType[])Enum.GetValues(typeof(ColourType));
+        private ColourType currentObstacleColour;
+        public ColourType CurrentObstacleColour => currentObstacleColour;
         
         public float ObstacleSpeed = 1.0f;
-        
+
+        private void Awake()
+        {
+            gameConfigService = ServiceLocator.Get<GameConfigService>();
+        } 
+
         private void FixedUpdate()
         {
             obstacleRigidBody.position += Vector2.down * (Time.fixedDeltaTime * ObstacleSpeed);
@@ -22,29 +28,9 @@ namespace ColourMatch
 
         public void AssignObstacleRandomColour()
         {
-            var randomNumber = UnityEngine.Random.Range(0, 4);
-            switch (randomNumber)
-            {
-                case 0:
-                    currentObstacleColour = StringConstants.Magenta;
-                    obstacleSpriteRenderer.color = gameVariablesSO.magentaColour;
-                    break;
-
-                case 1:
-                    currentObstacleColour = StringConstants.Blue;
-                    obstacleSpriteRenderer.color = gameVariablesSO.blueColour;
-                    break;
-
-                case 2:
-                    currentObstacleColour = StringConstants.Green;
-                    obstacleSpriteRenderer.color = gameVariablesSO.greenColour;
-                    break;
-
-                case 3:
-                    currentObstacleColour = StringConstants.Red;
-                    obstacleSpriteRenderer.color = gameVariablesSO.redColour;
-                    break;
-            }
+            currentObstacleColour = (ColourType)UnityEngine.Random.Range(0, availableColours.Length);
+            obstacleSpriteRenderer.color = gameConfigService.GetColourByType(currentObstacleColour);
+            Logger.BasicLog(this, $"Assigned colour: {currentObstacleColour}", LogChannel.Gameplay);
         }
         
         public void SetPosition(Vector3 position)

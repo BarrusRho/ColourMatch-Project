@@ -1,13 +1,11 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace ColourMatch
 {
     public class GameConfigService
     {
-        public Color MagentaColour { get; }
-        public Color BlueColour { get; }
-        public Color GreenColour { get; }
-        public Color RedColour { get; }
+        private readonly Dictionary<ColourType, Color> colourMap;
 
         public float EasySpeed { get; }
         public float MediumSpeed { get; }
@@ -17,10 +15,13 @@ namespace ColourMatch
 
         public GameConfigService(GameVariablesSO gameVariablesSO)
         {
-            MagentaColour = gameVariablesSO.magentaColour;
-            BlueColour = gameVariablesSO.blueColour;
-            GreenColour = gameVariablesSO.greenColour;
-            RedColour = gameVariablesSO.redColour;
+            colourMap = new Dictionary<ColourType, Color>()
+            {
+                { ColourType.Magenta, gameVariablesSO.magentaColour },
+                { ColourType.Blue, gameVariablesSO.blueColour },
+                { ColourType.Green, gameVariablesSO.greenColour },
+                { ColourType.Red, gameVariablesSO.redColour }
+            };
 
             EasySpeed = gameVariablesSO.easyDifficultySpeed;
             MediumSpeed = gameVariablesSO.mediumDifficultySpeed;
@@ -34,21 +35,9 @@ namespace ColourMatch
             
         }
         
-        public Color GetColourByName(string name)
+        public Color GetColourByType(ColourType colourType)
         {
-            switch (name)
-            {
-                case StringConstants.Magenta:
-                    return MagentaColour;
-                case StringConstants.Blue:
-                    return BlueColour;
-                case StringConstants.Green:
-                    return GreenColour;
-                case StringConstants.Red:
-                    return RedColour;
-                default:
-                    return Color.white;
-            }
+            return colourMap.TryGetValue(colourType, out var color) ? color : Color.white;
         }
         
         public float GetSpeedByDifficulty(DifficultyLevel difficulty)
