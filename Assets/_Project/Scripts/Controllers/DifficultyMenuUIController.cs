@@ -1,6 +1,6 @@
 namespace ColourMatch
 {
-    public class DifficultyMenuController : ControllerBase<DifficultyMenuView>
+    public class DifficultyMenuUIController : UIControllerBase<DifficultyMenuUIView>, IUIController
     {
         protected override void OnInit()
         {
@@ -9,7 +9,7 @@ namespace ColourMatch
 
         private void OnDifficultySelected(DifficultyLevel difficultyLevel)
         {
-            Logger.BasicLog(typeof(DifficultyMenuController), $"Difficulty {difficultyLevel} chosen — firing event", LogChannel.UI);
+            Logger.BasicLog(typeof(DifficultyMenuUIController), $"Difficulty {difficultyLevel} chosen — firing event", LogChannel.UI);
             EventBus.Fire(new DifficultySelectedEvent(difficultyLevel));
         }
     }

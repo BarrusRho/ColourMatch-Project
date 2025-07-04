@@ -11,6 +11,7 @@ namespace ColourMatch
         private GameCamera gameCamera;
         private GameConfigService gameConfigService;
         private PoolingService poolingService;
+        private GameplayControllerService gameplayControllerService;
         private PlayerController playerController;
 
         private DifficultyLevel currentDifficultyLevel;
@@ -23,10 +24,12 @@ namespace ColourMatch
         {
             gameCamera = ResolveServiceDependency<GameCamera>();
             gameConfigService = ResolveServiceDependency<GameConfigService>();
+            gameplayControllerService = ResolveServiceDependency<GameplayControllerService>();
             poolingService = ResolveServiceDependency<PoolingService>();
-            
-            playerController = new PlayerController();
-            playerController.Init(playerView);
+
+            playerController =
+                (PlayerController)GameplayControllerFactory.Create(GameplayControllerType.PlayerController, playerView);
+            gameplayControllerService.Register(playerController);
         }
 
         private void OnEnable()
@@ -73,6 +76,8 @@ namespace ColourMatch
             playerView.gameObject.SetActive(true);
             playerView.PlayerRigidbody.gameObject.SetActive(true);
             playerController.Reset();
+            
+            gameplayControllerService.ResetAll();
             
             SetPlayerPosition();
             SpawnObstacle();

@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace ColourMatch
 {
-    public class DifficultyMenuView : ViewBase
+    public class DifficultyMenuUIView : UIViewBase, IUIView
     {
         [SerializeField] private Button easyButton;
         [SerializeField] private Button mediumButton;

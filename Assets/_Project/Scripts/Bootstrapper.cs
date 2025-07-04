@@ -8,7 +8,8 @@ namespace ColourMatch
         private GameConfigService gameConfigService;
         private AudioService audioService;
         private PoolingService poolingService;
-        private ControllerService controllerService;
+        private UIControllerService uiControllerService;
+        private GameplayControllerService gameplayControllerService;
         private GameStateService gameStateService;
         
         [SerializeField] private GameVariablesSO gameVariablesSO;
@@ -22,7 +23,7 @@ namespace ColourMatch
         
         [SerializeField] private List<ObjectPoolSO> objectPools;
         
-        [SerializeField] private ViewRegistry viewRegistry;
+        [SerializeField] private UIViewRegistry uiViewRegistry;
         
         [SerializeField] private LogChannelsSO logChannels;
         
@@ -40,7 +41,8 @@ namespace ColourMatch
         private void CreateServices()
         {
             gameConfigService = new GameConfigService(gameVariablesSO);
-            controllerService = new ControllerService(viewRegistry);
+            uiControllerService = new UIControllerService(uiViewRegistry);
+            gameplayControllerService = new GameplayControllerService();
             audioService = new AudioService();
             gameStateService = new GameStateService();
             poolingService = new PoolingService(objectPools);
@@ -50,7 +52,8 @@ namespace ColourMatch
         {
             ServiceLocator.RegisterOnce(gameConfigService);
             ServiceLocator.RegisterOnce(gameCamera);
-            ServiceLocator.RegisterOnce(controllerService);
+            ServiceLocator.RegisterOnce(uiControllerService);
+            ServiceLocator.RegisterOnce(gameplayControllerService);
             ServiceLocator.RegisterOnce(audioService);
             ServiceLocator.RegisterOnce(gameStateService);
             ServiceLocator.RegisterOnce(poolingService);
@@ -61,7 +64,8 @@ namespace ColourMatch
         {
             gameConfigService.Initialise();
             gameCamera.Initialise();
-            controllerService.Initialise();
+            uiControllerService.Initialise();
+            gameplayControllerService.Initialise();
             audioService.Initialise(audioClips, audioSources);
             gameStateService.Initialise();
             poolingService.Initialise();
@@ -70,8 +74,18 @@ namespace ColourMatch
 
         private void OnDestroy()
         {
-            ServiceLocator.Get<GameStateService>().Dispose();
-            ServiceLocator.Get<ControllerService>().Dispose();
+            gameStateService?.Dispose();
+            uiControllerService?.Dispose();
+            gameplayControllerService?.Dispose();
+            
+            ServiceLocator.Unregister<GameStateService>();
+            ServiceLocator.Unregister<UIControllerService>();
+            ServiceLocator.Unregister<GameplayControllerService>();
+            ServiceLocator.Unregister<GameConfigService>();
+            ServiceLocator.Unregister<GameCamera>();
+            ServiceLocator.Unregister<AudioService>();
+            ServiceLocator.Unregister<PoolingService>();
+            ServiceLocator.Unregister<GameManager>();
         }
     }
 }

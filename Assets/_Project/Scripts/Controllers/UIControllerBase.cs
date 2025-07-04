@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 
 namespace ColourMatch
 {
-    public abstract class ControllerBase<TView> : IController where TView : IView
+    public abstract class UIControllerBase<TView> : IUIController where TView : UIViewBase
     {
         protected TView View;
 

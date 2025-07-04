@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace ColourMatch
 {
-    public class PlayerView : ViewBase
+    public class PlayerView : GameplayViewBase
     {
         [SerializeField] private SpriteRenderer playerSpriteRenderer;
         [SerializeField] private Rigidbody2D playerRigidbody;

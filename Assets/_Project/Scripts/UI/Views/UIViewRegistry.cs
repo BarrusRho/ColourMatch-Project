@@ -3,15 +3,15 @@ using UnityEngine;
 
 namespace ColourMatch
 {
-    public class ViewRegistry : MonoBehaviour
+    public class UIViewRegistry : MonoBehaviour
     {
         public List<UIViewEntry> views;
 
         [System.Serializable]
         public struct UIViewEntry
         {
-            public ViewType viewType;
-            public ViewBase view;
+            public UIViewType uiViewType;
+            public UIViewBase uiView;
         }
     }
 }

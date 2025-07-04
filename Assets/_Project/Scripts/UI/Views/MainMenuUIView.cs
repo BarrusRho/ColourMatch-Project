@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace ColourMatch
 {
-    public class MainMenuView : ViewBase
+    public class MainMenuUIView : UIViewBase, IUIView
     {
         [SerializeField] private Button startGameButton;
 

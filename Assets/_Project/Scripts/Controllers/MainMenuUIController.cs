@@ -1,6 +1,6 @@
 namespace ColourMatch
 {
-    public class MainMenuController : ControllerBase<MainMenuView>
+    public class MainMenuUIController : UIControllerBase<MainMenuUIView>, IUIController
     {
         protected override void OnInit()
         {
@@ -9,7 +9,7 @@ namespace ColourMatch
 
         private void OnStartGameSelected()
         {
-            Logger.BasicLog(typeof(MainMenuController), "Start button clicked (controller) — firing event.", LogChannel.UI);
+            Logger.BasicLog(typeof(MainMenuUIController), "Start button clicked (controller) — firing event.", LogChannel.UI);
             EventBus.Fire(new GameStartEvent());
         }
     }

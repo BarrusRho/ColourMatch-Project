@@ -1,6 +1,6 @@
 namespace ColourMatch
 {
-    public enum ViewType
+    public enum UIViewType
     {
         MainMenu,
         DifficultyMenu,

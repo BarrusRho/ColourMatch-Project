@@ -48,15 +48,15 @@ namespace ColourMatch
                 switch (state)
                 {
                     case GameState.MainMenu:
-                        EventBus.Fire(new ViewTransitionEvent(ViewType.MainMenu));
+                        EventBus.Fire(new ViewTransitionEvent(UIViewType.MainMenu));
                         break;
 
                     case GameState.DifficultyMenu:
-                        EventBus.Fire(new ViewTransitionEvent(ViewType.DifficultyMenu));
+                        EventBus.Fire(new ViewTransitionEvent(UIViewType.DifficultyMenu));
                         break;
 
                     case GameState.Game:
-                        EventBus.Fire(new ViewTransitionEvent(ViewType.GameHUD));
+                        EventBus.Fire(new ViewTransitionEvent(UIViewType.GameHUD));
                         break;
 
                     case GameState.Init:

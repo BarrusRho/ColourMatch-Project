@@ -2,7 +2,7 @@ using System;
 
 namespace ColourMatch
 {
-    public class PlayerController : ControllerBase<PlayerView>
+    public class PlayerController : GameplayControllerBase<PlayerView>, IGameplayController, IResettable
     {
         private GameConfigService gameConfigService;
         private PoolingService poolingService;
@@ -19,8 +19,11 @@ namespace ColourMatch
             poolingService = ServiceLocator.Get<PoolingService>();
             
             availableColours = (ColourType[])Enum.GetValues(typeof(ColourType));
-
+            
+            View.OnObstacleCollided -= OnColourMatchCollision;
             View.OnObstacleCollided += OnColourMatchCollision;
+            
+            ApplyCurrentColour();
         }
 
         private void AssignRandomColour()
@@ -32,24 +35,24 @@ namespace ColourMatch
             } while (newIndex == colourIndex);
 
             colourIndex = newIndex;
-            ApplyColour();
+            ApplyCurrentColour();
         }
         
         public void IncrementColour()
         {
             colourIndex = (colourIndex + 1) % availableColours.Length;
-            ApplyColour();
+            ApplyCurrentColour();
             AudioPlayer.ChangeColour();
         }
         
         public void DecrementColour()
         {
             colourIndex = (colourIndex - 1 + availableColours.Length) % availableColours.Length;
-            ApplyColour();
+            ApplyCurrentColour();
             AudioPlayer.ChangeColour();
         }
 
-        private void ApplyColour()
+        private void ApplyCurrentColour()
         {
             CurrentColourType = availableColours[colourIndex];
             View.SetColour(gameConfigService.GetColourByType(CurrentColourType));
@@ -60,6 +63,7 @@ namespace ColourMatch
         {
             isWrongMatch = false;
             AssignRandomColour();
+            Logger.BasicLog(typeof(PlayerController), "Player reset and new colour assigned.", LogChannel.Gameplay);
         }
 
         private void OnColourMatchCollision(Obstacle obstacle)

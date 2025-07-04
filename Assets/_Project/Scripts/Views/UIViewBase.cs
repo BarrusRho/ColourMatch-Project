@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace ColourMatch
 {
-    public abstract class ViewBase : MonoBehaviour, IView
+    public abstract class UIViewBase : MonoBehaviour, IUIView
     {
         protected bool IsDestroyed { get; private set; }
         protected bool IsTransitioning { get; private set; }
@@ -18,7 +18,7 @@ namespace ColourMatch
         {
             if (IsVisible)
             {
-                Logger.Warning(typeof(ViewBase), $"Show() skipped — already visible: {GetType().Name}", LogChannel.UI);
+                Logger.Warning(typeof(UIViewBase), $"Show() skipped — already visible: {GetType().Name}", LogChannel.UI);
                 return;
             }
 
@@ -34,7 +34,7 @@ namespace ColourMatch
         {
             if (!IsVisible)
             {
-                Logger.Warning(typeof(ViewBase), $"Hide() skipped — already hidden: {GetType().Name}", LogChannel.UI);
+                Logger.Warning(typeof(UIViewBase), $"Hide() skipped — already hidden: {GetType().Name}", LogChannel.UI);
                 return;
             }
 
@@ -50,7 +50,7 @@ namespace ColourMatch
         {
             if (IsTransitioning || IsVisible)
             {
-                Logger.Warning(typeof(ViewBase), $"ShowAsync() skipped — already transitioning or visible: {GetType().Name}", LogChannel.UI);
+                Logger.Warning(typeof(UIViewBase), $"ShowAsync() skipped — already transitioning or visible: {GetType().Name}", LogChannel.UI);
                 return;
             }
 
@@ -71,7 +71,7 @@ namespace ColourMatch
             }
             catch (TaskCanceledException)
             {
-                Logger.Warning(typeof(ViewBase), $"ShowAsync() was cancelled: {GetType().Name}", LogChannel.UI);
+                Logger.Warning(typeof(UIViewBase), $"ShowAsync() was cancelled: {GetType().Name}", LogChannel.UI);
             }
 
             IsTransitioning = false;
@@ -81,7 +81,7 @@ namespace ColourMatch
         {
             if (IsTransitioning || !IsVisible)
             {
-                Logger.Warning(typeof(ViewBase), $"HideAsync() skipped — already transitioning or not visible: {GetType().Name}", LogChannel.UI);
+                Logger.Warning(typeof(UIViewBase), $"HideAsync() skipped — already transitioning or not visible: {GetType().Name}", LogChannel.UI);
                 return;
             }
 
@@ -101,7 +101,7 @@ namespace ColourMatch
             }
             catch (TaskCanceledException)
             {
-                Logger.Warning(typeof(ViewBase), $"HideAsync() was cancelled: {GetType().Name}", LogChannel.UI);
+                Logger.Warning(typeof(UIViewBase), $"HideAsync() was cancelled: {GetType().Name}", LogChannel.UI);
             }
 
             IsTransitioning = false;

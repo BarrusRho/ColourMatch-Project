@@ -1,6 +1,6 @@
 namespace ColourMatch
 {
-    public class GameHUDController : ControllerBase<GameHUDView>
+    public class GameHUDUIController : UIControllerBase<GameHUDUIView>, IUIController
     {
         protected override void OnInit()
         {
@@ -10,13 +10,13 @@ namespace ColourMatch
 
         private void OnLeftButtonSelected()
         {
-            Logger.BasicLog(typeof(GameHUDController), "Left button clicked — event handled.", LogChannel.UI);
+            Logger.BasicLog(typeof(GameHUDUIController), "Left button clicked — event handled.", LogChannel.UI);
             EventBus.Fire(new LeftButtonClickedEvent());
         }
 
         private void OnRightButtonSelected()
         {
-            Logger.BasicLog(typeof(GameHUDController), "Right button clicked — event handled.", LogChannel.UI);
+            Logger.BasicLog(typeof(GameHUDUIController), "Right button clicked — event handled.", LogChannel.UI);
             EventBus.Fire(new RightButtonClickedEvent());
         }
     }

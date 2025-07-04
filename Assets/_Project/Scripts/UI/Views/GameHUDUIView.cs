@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace ColourMatch
 {
-    public class GameHUDView : ViewBase
+    public class GameHUDUIView : UIViewBase, IUIView
     {
         [SerializeField] private ClickButtonView leftButton;
         [SerializeField] private ClickButtonView rightButton;

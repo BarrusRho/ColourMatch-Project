@@ -7,24 +7,24 @@ namespace ColourMatch
 {
     public static class ServiceLocator
     {
-        private static readonly Dictionary<Type, object> services = new();
+        private static readonly Dictionary<Type, object> _services = new();
 
         public static void Register<T>(T service) where T : class
         {
             var type = typeof(T);
-            if (services.ContainsKey(type))
+            if (_services.ContainsKey(type))
             {
                 Debug.LogWarning($"Service of type {type.FullName} is already registered. Overwriting.");
             }
-            services[type] = service;
+            _services[type] = service;
         }
 
         public static void RegisterOnce<T>(T service) where T : class
         {
             var type = typeof(T);
-            if (!services.ContainsKey(type))
+            if (!_services.ContainsKey(type))
             {
-                services[type] = service;
+                _services[type] = service;
             }
         }
         
@@ -40,26 +40,26 @@ namespace ColourMatch
             }
 
             var type = typeof(T);
-            services[type] = service;
+            _services[type] = service;
         }
         
         public static async Task RegisterAsyncOnce<T>(T service) where T : class
         {
             var type = typeof(T);
-            if (!services.ContainsKey(type))
+            if (!_services.ContainsKey(type))
             {
                 if (service is IAsyncInitialisable initialisable)
                 {
                     await initialisable.InitialiseAsync();
                 }
-                services[type] = service;
+                _services[type] = service;
             }
         }
 
         public static T Get<T>() where T : class
         {
             var type = typeof(T);
-            if (services.TryGetValue(type, out var service))
+            if (_services.TryGetValue(type, out var service))
             {
                 return service as T;
             }
@@ -69,7 +69,7 @@ namespace ColourMatch
         
         public static bool TryGet<T>(out T service) where T : class
         {
-            if (services.TryGetValue(typeof(T), out var serviceInstance))
+            if (_services.TryGetValue(typeof(T), out var serviceInstance))
             {
                 service = serviceInstance as T;
                 return true;
@@ -81,7 +81,7 @@ namespace ColourMatch
 
         public static T TryGetService<T>() where T : class
         {
-            if (services.TryGetValue(typeof(T), out var serviceInstance))
+            if (_services.TryGetValue(typeof(T), out var serviceInstance))
             {
                 return serviceInstance as T;
             }
@@ -92,12 +92,25 @@ namespace ColourMatch
 
         public static bool IsRegistered<T>() where T : class
         {
-            return services.ContainsKey(typeof(T));
+            return _services.ContainsKey(typeof(T));
         }
 
         public static void Clear()
         {
-            services.Clear();
+            _services.Clear();
+        }
+        
+        public static void Unregister<T>() where T : class
+        {
+            var type = typeof(T);
+            if (_services.Remove(type))
+            {
+                Logger.BasicLog(typeof(ServiceLocator), $"Unregistered service: {type.Name}", LogChannel.Services);
+            }
+            else
+            {
+                Logger.Warning(typeof(ServiceLocator), $"Attempted to unregister non-existent service: {type.Name}", LogChannel.Services);
+            }
         }
     }
 }

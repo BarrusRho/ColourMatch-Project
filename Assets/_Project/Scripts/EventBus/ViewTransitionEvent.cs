@@ -2,11 +2,11 @@ namespace ColourMatch
 {
     public readonly struct ViewTransitionEvent
     {
-        public ViewType ViewToShow { get; }
+        public UIViewType UIViewToShow { get; }
 
-        public ViewTransitionEvent(ViewType viewToShow)
+        public ViewTransitionEvent(UIViewType uiViewToShow)
         {
-            ViewToShow = viewToShow;
+            UIViewToShow = uiViewToShow;
         }
     }
 }
