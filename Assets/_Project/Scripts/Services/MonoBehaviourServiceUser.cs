@@ -10,7 +10,7 @@ namespace ColourMatch
             if (service == null)
             {
                 var message = $"[ServiceUser] Required service not found: {typeof(T).FullName}";
-                Debug.LogError(message);
+                Logger.Error(this, message, LogChannel.Services);
                 throw new System.InvalidOperationException(message);
             }
 
