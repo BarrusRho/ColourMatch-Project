@@ -13,6 +13,7 @@ namespace ColourMatch
         private PoolingService poolingService;
         private GameplayControllerService gameplayControllerService;
         private PlayerController playerController;
+        private GameplaySystemService gameplaySystemService;
 
         private DifficultyLevel currentDifficultyLevel;
         
@@ -24,20 +25,20 @@ namespace ColourMatch
         {
             gameCamera = ResolveServiceDependency<GameCamera>();
             gameConfigService = ResolveServiceDependency<GameConfigService>();
+            gameplaySystemService = ResolveServiceDependency<GameplaySystemService>();
             gameplayControllerService = ResolveServiceDependency<GameplayControllerService>();
             poolingService = ResolveServiceDependency<PoolingService>();
 
             playerController =
                 (PlayerController)GameplayControllerFactory.Create(GameplayControllerType.PlayerController, playerView);
             gameplayControllerService.Register(playerController);
+            gameplaySystemService.RegisterSystem(playerController);
         }
 
         private void OnEnable()
         {
             EventBus.Subscribe<GameBeginEvent>(OnGameBegin);
             EventBus.Subscribe<GameCompleteEvent>(OnGameComplete);
-            EventBus.Subscribe<LeftButtonClickedEvent>(OnLeftButtonClicked);
-            EventBus.Subscribe<RightButtonClickedEvent>(OnRightButtonClicked);
             EventBus.Subscribe<ColourMismatchEvent>(OnEnemyHitPlayer);
         }
 
@@ -45,8 +46,6 @@ namespace ColourMatch
         {
             EventBus.Unsubscribe<GameBeginEvent>(OnGameBegin);
             EventBus.Unsubscribe<GameCompleteEvent>(OnGameComplete);
-            EventBus.Unsubscribe<LeftButtonClickedEvent>(OnLeftButtonClicked);
-            EventBus.Unsubscribe<RightButtonClickedEvent>(OnRightButtonClicked);
             EventBus.Unsubscribe<ColourMismatchEvent>(OnEnemyHitPlayer);
         }
         
@@ -92,18 +91,6 @@ namespace ColourMatch
             var playerScreenPosition = new Vector2(Screen.width * 0.5f, fixedYPosition);
             var playerWorldPosition = gameCamera.ScreenPositionToWorldPosition(playerScreenPosition);
             playerView.PlayerRigidbody.position = playerWorldPosition;
-        }
-
-        private void OnLeftButtonClicked(LeftButtonClickedEvent leftButtonClickedEvent)
-        {
-            Logger.BasicLog(this, "Left button input received — changing player colour.", LogChannel.Gameplay);
-            playerController.DecrementColour();
-        }
-
-        private void OnRightButtonClicked(RightButtonClickedEvent rightButtonClickedEvent)
-        {
-            Logger.BasicLog(this, "Right button input received — changing player colour.", LogChannel.Gameplay);
-            playerController.IncrementColour();
         }
 
         /// <summary>
