@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 namespace ColourMatch
 {
@@ -6,6 +7,7 @@ namespace ColourMatch
         IResettable
     {
         private GameConfigService gameConfigService;
+        private GameCamera gameCamera;
         private PoolingService poolingService;
         private int colourIndex = 0;
         private bool isWrongMatch = false;
@@ -15,6 +17,7 @@ namespace ColourMatch
         protected override void OnInit()
         {
             gameConfigService = ServiceLocator.Get<GameConfigService>();
+            gameCamera = ServiceLocator.Get<GameCamera>();
             poolingService = ServiceLocator.Get<PoolingService>();
 
             availableColours = (ColourType[])Enum.GetValues(typeof(ColourType));
@@ -26,6 +29,32 @@ namespace ColourMatch
             View.OnObstacleCollided += OnColourMatchCollision;
 
             ApplyCurrentColour();
+        }
+        
+        public void Initialise()
+        {
+            Logger.BasicLog(typeof(PlayerController), "PlayerController initialised", LogChannel.Gameplay);
+        }
+        
+        public void PrepareForGameStart()
+        {
+            Reset();
+            SetPlayerVisibility(true);
+            SetStartPosition();
+        }
+
+        private void SetPlayerVisibility(bool isVisible)
+        {
+            View.gameObject.SetActive(isVisible);
+            View.PlayerRigidbody.gameObject.SetActive(isVisible);
+        }
+
+        private void SetStartPosition()
+        {
+            var fixedYPosition = Screen.height * 0.33f;
+            var playerScreenPosition = new Vector2(Screen.width * 0.5f, fixedYPosition);
+            var playerWorldPosition = gameCamera.ScreenPositionToWorldPosition(playerScreenPosition);
+            View.PlayerRigidbody.position = playerWorldPosition;
         }
 
         private void AssignRandomColour()
@@ -61,11 +90,6 @@ namespace ColourMatch
             Logger.BasicLog(typeof(PlayerController), $"Applied colour: {CurrentColourType}", LogChannel.Gameplay);
         }
 
-        public void Initialise()
-        {
-            Logger.BasicLog(typeof(PlayerController), "PlayerController initialised", LogChannel.Gameplay);
-        }
-
         public void Reset()
         {
             isWrongMatch = false;
@@ -91,24 +115,34 @@ namespace ColourMatch
             IncrementColour();
             Logger.BasicLog(this, "Right button input received — changing player colour.", LogChannel.Gameplay);
         }
+        
+        public void HandlePlayerCollision()
+        {
+            var playerImpactVFX = poolingService.Get(PooledObject.PlayerImpactVFX);
+            playerImpactVFX.transform.position = View.PlayerRigidbody.position;
+            playerImpactVFX.transform.rotation = Quaternion.identity;
+            
+            AudioPlayer.PlayerImpact();
+            SetPlayerVisibility(false);
+        }
 
-        private void OnColourMatchCollision(Obstacle obstacle)
+        private void OnColourMatchCollision(ObstacleView obstacle)
         {
             if (isWrongMatch)
             {
                 return;
             }
 
-            if (obstacle.CurrentObstacleColour == CurrentColourType)
+            if (obstacle.CurrentColour == CurrentColourType)
             {
                 AudioPlayer.ColourMatch();
             }
             else
             {
                 Logger.Warning(this,
-                    $"Colour mismatch! Obstacle: {obstacle.CurrentObstacleColour}, Player: {CurrentColourType}",
+                    $"Colour mismatch! Obstacle: {obstacle.CurrentColour}, Player: {CurrentColourType}",
                     LogChannel.Gameplay);
-                poolingService.Return(PooledObject.Obstacle, obstacle.gameObject);
+                poolingService.Return(PooledObject.ObstacleView, obstacle.gameObject);
                 isWrongMatch = true;
                 EventBus.Fire(new ColourMismatchEvent());
             }

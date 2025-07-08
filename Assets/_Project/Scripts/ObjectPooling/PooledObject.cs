@@ -2,7 +2,7 @@ namespace ColourMatch
 {
     public enum PooledObject
     {
-        Obstacle,
+        ObstacleView,
         PlayerImpactVFX,
         ExplosionVFX
     }

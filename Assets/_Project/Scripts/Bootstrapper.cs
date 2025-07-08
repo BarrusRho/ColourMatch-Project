@@ -17,7 +17,7 @@ namespace ColourMatch
         
         [SerializeField] private GameCamera gameCamera;
 
-        [SerializeField] private GameManager gameManager;
+        [SerializeField] private GameplayCoordinator gameplayCoordinator;
         
         [SerializeField] private AudioClipsSO audioClips;
         [SerializeField] private AudioSource[] audioSources;
@@ -36,6 +36,7 @@ namespace ColourMatch
             CreateServices();
             RegisterServices();
             InitialiseServices();
+            InitialiseCoordinators();
             Logger.BasicLog(this, $"Bootstrapper: All components initialized and registered.", LogChannel.BasicLog);
         }
 
@@ -61,7 +62,6 @@ namespace ColourMatch
             ServiceLocator.RegisterOnce(gameStateService);
             ServiceLocator.RegisterOnce(poolingService);
             ServiceLocator.RegisterOnce(gameplaySystemService);
-            ServiceLocator.RegisterOnce(gameManager);
         }
 
         private void InitialiseServices()
@@ -74,7 +74,11 @@ namespace ColourMatch
             gameStateService.Initialise();
             poolingService.Initialise();
             gameplaySystemService.Initialise();
-            gameManager.Initialise();
+        }
+
+        private void InitialiseCoordinators()
+        {
+            gameplayCoordinator.Initialise();
         }
 
         private void OnDestroy()
@@ -91,7 +95,6 @@ namespace ColourMatch
             ServiceLocator.Unregister<GameCamera>();
             ServiceLocator.Unregister<AudioService>();
             ServiceLocator.Unregister<PoolingService>();
-            ServiceLocator.Unregister<GameManager>();
             ServiceLocator.Unregister<GameplaySystemService>();
         }
     }

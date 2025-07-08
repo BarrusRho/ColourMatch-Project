@@ -10,7 +10,7 @@ namespace ColourMatch
         
         public Rigidbody2D PlayerRigidbody => playerRigidbody;
 
-        public event Action<Obstacle> OnObstacleCollided;
+        public event Action<ObstacleView> OnObstacleCollided;
 
         public void SetColour(Color colour)
         {
@@ -19,7 +19,7 @@ namespace ColourMatch
 
         public void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.TryGetComponent(out Obstacle obstacle))
+            if (other.TryGetComponent(out ObstacleView obstacle))
             {
                 OnObstacleCollided?.Invoke(obstacle);
             }

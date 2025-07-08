@@ -4,19 +4,27 @@ namespace ColourMatch
 {
     public static class GameplayControllerFactory
     {
-        public static IGameplayController Create(GameplayControllerType type, IGameplayView view)
+        public static IGameplayController Create(GameplayControllerType type, IGameplayView view = null)
         {
             return type switch
             {
-                GameplayControllerType.PlayerController => Create<PlayerController>(view),
+                GameplayControllerType.PlayerController => CreateWithView<PlayerController>(view),
+                GameplayControllerType.ObstacleController => CreateWithoutView<ObstacleController>(),
                 _ => throw new ArgumentOutOfRangeException(nameof(type))
             };
         }
-
-        private static T Create<T>(IGameplayView view) where T : IGameplayController, new()
+        
+        private static T CreateWithView<T>(IGameplayView view) where T : IGameplayController, new()
         {
             var controller = new T();
             controller.Init((GameplayViewBase)view);
+            return controller;
+        }
+        
+        private static T CreateWithoutView<T>() where T : IGameplayController, new()
+        {
+            var controller = new T();
+            controller.Init(null); // safe for view-less controllers
             return controller;
         }
     }

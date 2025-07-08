@@ -2576,7 +2576,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameVariablesSO: {fileID: 11400000, guid: 4629a793092cbda49b542ed6181d41ae, type: 2}
   gameCamera: {fileID: 1679875372}
-  gameManager: {fileID: 1387852824}
+  gameplayCoordinator: {fileID: 1387852824}
   audioClips: {fileID: 11400000, guid: 9cd9dc22f94be3a4f8d91c5fea7fdc44, type: 2}
   audioSources:
   - {fileID: 559939281}
@@ -3468,7 +3468,7 @@ GameObject:
   - component: {fileID: 1387852823}
   - component: {fileID: 1387852824}
   m_Layer: 0
-  m_Name: GameManager
+  m_Name: GameplayCoordinator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4750,14 +4750,14 @@ SceneRoots:
   - {fileID: 990653430}
   - {fileID: 2041971562}
   - {fileID: 1679875371}
+  - {fileID: 353258110}
+  - {fileID: 1387852823}
+  - {fileID: 713949719}
+  - {fileID: 1694353915}
   - {fileID: 617553518}
   - {fileID: 1473627292}
   - {fileID: 1041263627}
   - {fileID: 322744109}
-  - {fileID: 353258110}
-  - {fileID: 1694353915}
-  - {fileID: 713949719}
-  - {fileID: 1387852823}
   - {fileID: 948762516}
   - {fileID: 1140867570}
   - {fileID: 15978239}

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4408087882611992}
   - component: {fileID: 50842033483939566}
   - component: {fileID: 61587609947374440}
-  - component: {fileID: 114296328297082860}
+  - component: {fileID: 4362213015685243848}
   m_Layer: 0
   m_Name: ObstacleBase
   m_TagString: Untagged
@@ -107,7 +107,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 8, y: 0.75}
   m_EdgeRadius: 0
---- !u!114 &114296328297082860
+--- !u!114 &4362213015685243848
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -116,13 +116,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1115082796645422}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e1b63e4b124c4bf0b6646fd05b961b3, type: 3}
+  m_Script: {fileID: 11500000, guid: 50683eb2528349442974b760213d4bb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameVariablesSO: {fileID: 11400000, guid: 4629a793092cbda49b542ed6181d41ae, type: 2}
   obstacleSpriteRenderer: {fileID: 7100497895882350633}
   obstacleRigidBody: {fileID: 50842033483939566}
-  ObstacleSpeed: 1
 --- !u!1 &2897112388980332075
 GameObject:
   m_ObjectHideFlags: 0
